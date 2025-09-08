@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Select Product Category - BBG Legal Tech Assistant{% endblock %}
+
+{% block main_class %}container{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow" style="background-color: #1a202c; border: 1px solid #2d3748;">
+            <div class="card-header text-center" style="background-color: #2d3748; border-bottom: 1px solid #4a5568;">
+                <h4 class="mb-0" style="color: #f8f9fa;">
+                    <i class="bi bi-tag me-2"></i>
+                    Select Product Category
+                </h4>
+                <p class="mb-0 mt-2 small" style="color: #a0aec0;">Required to access legal tech workflows</p>
+            </div>
+            <div class="card-body p-4" style="background-color: #1a202c;">
+                <form method="POST" id="categoryForm">
+                    <div class="row">
+                        {% for category in categories %}
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check card h-100" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="{{ category.description }}" style="background-color: #2d3748; border: 1px solid #4a5568; cursor: pointer;">
+                                <div class="card-body">
+                                    <input class="form-check-input" type="radio" name="category_id"
+                                        value="{{ category.id }}" id="category{{ category.id }}" style="margin-top: 0.25rem;">
+                                    <label class="form-check-label w-100" for="category{{ category.id }}" style="color: #f8f9fa; cursor: pointer;">
+                                        <div class="text-center">
+                                            <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">{{ category.name }}</h6>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-lg" id="submitBtn" disabled style="background-color: #e67e22; color: white; border: 1px solid #e67e22; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Continue to Dashboard
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center" style="background-color: #2d3748; border-top: 1px solid #4a5568;">
+                <small style="color: #a0aec0;">This selection determines which templates and agreements are available in your session</small>
+            </div>
+        </div>
+
+        <!-- Category Information -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info alert-permanent" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa;">
+                    <h6 class="alert-heading" style="color: #f8f9fa;">
+                        <i class="bi bi-info-circle me-2"></i>
+                        About Product Categories
+                    </h6>
+                    <ul class="mb-0 small" style="color: #a0aec0;">
+                        <li><strong style="color: #e67e22;">Wine:</strong> Wine distribution and supplier agreements</li>
+                        <li><strong style="color: #e67e22;">Spirit:</strong> Spirit and liquor distribution agreements</li>
+                        <li><strong style="color: #e67e22;">RTD:</strong> Ready-to-Drink beverage distribution</li>
+                        <li><strong style="color: #e67e22;">Non-Alcoholic:</strong> Non-alcoholic beverage agreements</li>
+                        <li><strong style="color: #e67e22;">Beer:</strong> Beer distribution and supplier agreements</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Dark theme styling for product category cards */
+    #categoryForm .card {
+        background-color: #2d3748 !important;
+        border: 1px solid #4a5568 !important;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    #categoryForm .card:hover {
+        background-color: #4a5568 !important;
+        border-color: #e67e22 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3);
+    }
+
+    #categoryForm .card.border-primary {
+        background-color: #4a5568 !important;
+        border-color: #e67e22 !important;
+        box-shadow: 0 2px 8px rgba(230, 126, 34, 0.4);
+    }
+
+    /* Button hover effects */
+    #submitBtn:hover:not(:disabled) {
+        background-color: #d35400 !important;
+        border-color: #d35400 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4);
+    }
+
+    #submitBtn:disabled {
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    /* Custom BBG tooltip styling */
+    .bbg-tooltip {
+        background-color: rgba(26, 32, 44, 0.95) !important;
+        color: #f8f9fa !important;
+        border: 1px solid #e67e22 !important;
+        border-radius: 8px !important;
+        font-size: 0.875rem !important;
+        padding: 8px 12px !important;
+        box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3) !important;
+        max-width: 250px !important;
+        white-space: normal !important;
+        line-height: 1.4 !important;
+    }
+
+    .bbg-tooltip .tooltip-arrow {
+        display: none !important;
+    }
+
+    .bbg-tooltip .tooltip-inner {
+        background-color: rgba(26, 32, 44, 0.95) !important;
+        color: #f8f9fa !important;
+        border: none !important;
+        padding: 8px 12px !important;
+        border-radius: 8px !important;
+        font-size: 0.875rem !important;
+        max-width: 250px !important;
+    }
+
+    /* Radio button styling */
+    .form-check-input:checked {
+        background-color: #e67e22 !important;
+        border-color: #e67e22 !important;
+    }
+
+    .form-check-input:focus {
+        border-color: #e67e22 !important;
+        box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25) !important;
+    }
+</style>
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radioButtons = document.querySelectorAll('input[name="category_id"]');
+        const submitBtn = document.getElementById('submitBtn');
+
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', function () {
+                submitBtn.disabled = false;
+                // Remove selection styling from all cards
+                document.querySelectorAll('#categoryForm .card').forEach(card => {
+                    card.classList.remove('border-primary');
+                });
+                // Add selection styling to selected card
+                this.closest('.card').classList.add('border-primary');
+            });
+        });
+
+        // Configure tooltips to hide immediately on mouse leave - only for category cards
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('#categoryForm .card[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl, {
+                trigger: 'hover focus',
+                delay: { show: 300, hide: 0 }, // Show quickly, hide immediately
+                placement: 'top',
+                html: true,
+                customClass: 'bbg-tooltip'
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,38 @@
+/* BBG Legal Tech Assistant - Central Color Variables */
+
+/* Primary Brand Colors */
+:root {
+    /* Dark Blue Theme */
+    --bbg-primary: #1a365d;      /* Dark blue primary */
+    --bbg-secondary: #2d3748;    /* Dark blue-gray secondary */
+    --bbg-accent: #3182ce;       /* Bright blue accent */
+    --bbg-light: #1a202c;        /* Dark blue background */
+    --bbg-white: #ffffff;        /* True white for cards and text */
+    --bbg-gray-50: #f7fafc;      /* Very light gray */
+    --bbg-gray-100: #edf2f7;     /* Light gray */
+    --bbg-gray-200: #e2e8f0;     /* Light gray for borders */
+    --bbg-gray-300: #cbd5e0;     /* Medium light gray */
+    --bbg-gray-400: #a0aec0;     /* Medium gray */
+    --bbg-gray-500: #718096;     /* Medium gray */
+    --bbg-gray-600: #4a5568;     /* Dark medium gray */
+    --bbg-gray-700: #2d3748;     /* Dark blue-gray */
+    --bbg-gray-800: #1a202c;     /* Very dark blue-gray */
+    --bbg-gray-900: #171923;     /* Very dark blue */
+
+    /* BBG Red Branding */
+    --bbg-red: #dc3545;          /* BBG red for branding */
+    --bbg-red-hover: #c82333;    /* Darker red for hover states */
+
+    /* Status Colors */
+    --bbg-success: #28a745;      /* Green for success */
+    --bbg-danger: #dc3545;       /* Red for danger/error */
+    --bbg-warning: #ffc107;      /* Yellow for warning */
+    --bbg-info: #17a2b8;         /* Blue for info */
+
+    /* Additional Colors */
+    --bbg-dark: #0f1419;         /* Very dark blue */
+    --bbg-light-gray: #e2e8f0;   /* Light gray for borders */
+    --bbg-text-primary: #1a202c; /* Primary text color (dark) */
+    --bbg-text-secondary: #4a5568; /* Secondary text color */
+    --bbg-text-muted: #718096;   /* Muted text color */
+}

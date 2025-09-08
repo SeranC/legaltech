@@ -1,0 +1,774 @@
+{% extends "base.html" %}
+
+{% block title %}Agreement Replication - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2" style="color: #f8f9fa; font-weight: 700;">
+                        <i class="bi bi-files me-3" style="color: #e67e22;"></i>
+                        Agreement Replication
+                    </h1>
+                    <p class="mb-0" style="color: #a0aec0; font-size: 1.1rem;">Generate state-specific distribution agreements from negotiated terms</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 px-4 py-2" style="background-color: #e67e22; color: white; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 25px;">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ product_category.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h5 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-files me-2" style="color: #e67e22;"></i>
+                        Replication Process
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Upload Zone -->
+                    <div class="upload-zone mb-3" id="uploadZone" style="padding: 1rem 1.5rem; background-color: #2d3748; border: 2px dashed #4a5568; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
+                        <i class="bi bi-cloud-upload" id="uploadIcon" style="font-size: 1.5rem; color: #a0aec0;"></i>
+                        <h6 class="mt-2 mb-1" id="uploadTitle" style="color: #f8f9fa; font-weight: 600; font-size: 0.9rem;">Upload Agreement</h6>
+                        <p class="mb-2" id="uploadText" style="color: #a0aec0; font-size: 0.8rem;">Drag & drop your negotiated agreement or click to browse</p>
+                        <input type="file" class="d-none" id="agreementFile" accept=".pdf,.doc,.docx">
+                        <button class="btn btn-sm" onclick="document.getElementById('agreementFile').click()" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 12px; padding: 8px 20px; font-weight: 600; font-size: 0.85rem; box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;">
+                            <i class="bi bi-cloud-upload me-2" style="font-size: 0.9rem;"></i>
+                            Choose File
+                        </button>
+                    </div>
+
+                    <!-- Original Agreement State -->
+                    <div class="mb-4">
+                        <h6 class="mb-3" style="color: #f8f9fa; font-weight: 600;">
+                            <i class="bi bi-geo-alt me-2" style="color: #e67e22;"></i>
+                            Original Agreement State
+                        </h6>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle w-100 text-start" type="button"
+                                id="originalStateDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 8px; padding: 12px;">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Agreement State
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="originalStateDropdown" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 8px;">
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input original-state-radio" type="radio"
+                                                name="originalState" value="CA" id="original-CA" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="original-CA" style="color: #f8f9fa;">
+                                                California
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input original-state-radio" type="radio"
+                                                name="originalState" value="NY" id="original-NY" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="original-NY" style="color: #f8f9fa;">
+                                                New York
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input original-state-radio" type="radio"
+                                                name="originalState" value="TX" id="original-TX" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="original-TX" style="color: #f8f9fa;">
+                                                Texas
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input original-state-radio" type="radio"
+                                                name="originalState" value="FL" id="original-FL" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="original-FL" style="color: #f8f9fa;">
+                                                Florida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="selectedOriginalState" class="mt-2" style="display: none;">
+                            <small style="color: #a0aec0;">Selected: <span id="selectedOriginalStateText"></span></small>
+                        </div>
+                    </div>
+
+                    <!-- State Selection -->
+                    <div class="mb-4">
+                        <h6 class="mb-3" style="color: #f8f9fa; font-weight: 600;">
+                            <i class="bi bi-geo-alt me-2" style="color: #e67e22;"></i>
+                            Target State
+                        </h6>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle w-100 text-start" type="button"
+                                id="stateDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 8px; padding: 12px;">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Select State
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="stateDropdown" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 8px;">
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input state-radio" type="radio" name="targetState" value="CA"
+                                                id="state-CA" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="state-CA" style="color: #f8f9fa;">
+                                                California
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input state-radio" type="radio" name="targetState" value="NY"
+                                                id="state-NY" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="state-NY" style="color: #f8f9fa;">
+                                                New York
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input state-radio" type="radio" name="targetState" value="TX"
+                                                id="state-TX" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="state-TX" style="color: #f8f9fa;">
+                                                Texas
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="dropdown-item" style="color: #f8f9fa; background-color: transparent;">
+                                        <div class="form-check">
+                                            <input class="form-check-input state-radio" type="radio" name="targetState" value="FL"
+                                                id="state-FL" style="accent-color: #e67e22;">
+                                            <label class="form-check-label" for="state-FL" style="color: #f8f9fa;">
+                                                Florida
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="selectedStates" class="mt-2" style="display: none;">
+                            <small style="color: #a0aec0;">Selected: <span id="selectedStatesList"></span></small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <button class="btn" id="startReplicationBtn" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 12px; padding: 12px 24px; font-weight: 600;">
+                            <i class="bi bi-play me-2"></i>
+                            Start Replication
+                        </button>
+                        <button class="btn" id="resetBtn" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568; border-radius: 12px; padding: 12px 24px; font-weight: 600;">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-lightbulb me-2" style="color: #e67e22;"></i>
+                        Recent Replications
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="list-group list-group-flush" id="recentReplicationsList" style="background-color: transparent;">
+                        <div class="list-group-item px-3 py-3 mb-2" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small style="color: #a0aec0;">2 days ago</small>
+                                    <div style="color: #f8f9fa; font-weight: 500;">Wine Distribution Agreement - NY to TX</div>
+                                </div>
+                                <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Completed</span>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-3 py-3" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small style="color: #a0aec0;">1 week ago</small>
+                                    <div style="color: #f8f9fa; font-weight: 500;">Beer Service Agreement - TX to FL</div>
+                                </div>
+                                <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Completed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Container - Bottom Right in Page Flow -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div id="resultsContainer" class="results-container" style="display: none;">
+                <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                    <div class="card-header" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); border-radius: 16px 16px 0 0;">
+                        <h6 class="mb-0" style="color: white; font-weight: 600;">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Replication Results
+                        </h6>
+                    </div>
+                    <div class="card-body p-4">
+                        <div id="replicationMessage" class="mb-3" style="color: #f8f9fa;"></div>
+                        <div id="resultsContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .results-container {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Upload zone hover effects */
+        .upload-zone:hover {
+            border-color: #e67e22 !important;
+            background-color: #374151 !important;
+        }
+
+        .upload-zone.dragover {
+            border-color: #e67e22 !important;
+            background-color: #374151 !important;
+        }
+
+        /* Dropdown styling fixes */
+        .dropdown-menu {
+            background-color: #2d3748 !important;
+            border: 1px solid #4a5568 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .dropdown-item {
+            background-color: transparent !important;
+            color: #f8f9fa !important;
+            border: none !important;
+        }
+
+        .dropdown-item:hover {
+            background-color: #4a5568 !important;
+            color: #f8f9fa !important;
+        }
+
+        .dropdown-item:focus {
+            background-color: #4a5568 !important;
+            color: #f8f9fa !important;
+        }
+
+        .dropdown-item:active {
+            background-color: #4a5568 !important;
+            color: #f8f9fa !important;
+        }
+
+        /* Form check styling */
+        .form-check-input {
+            accent-color: #e67e22 !important;
+        }
+
+        .form-check-label {
+            color: #f8f9fa !important;
+        }
+
+        /* Button hover effects */
+        #startReplicationBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4);
+        }
+
+        #resetBtn:hover {
+            background-color: #4a5568 !important;
+            border-color: #6b7280 !important;
+        }
+
+        /* Modern Choose File button effects */
+        .upload-zone button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(230, 126, 34, 0.4) !important;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%) !important;
+        }
+
+        .upload-zone button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(230, 126, 34, 0.3) !important;
+        }
+
+        /* Subtle pulse animation for the button */
+        .upload-zone button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .upload-zone button:hover::before {
+            left: 100%;
+        }
+    </style>
+</div>
+
+<script>
+    // Make product category available to JavaScript
+    const productCategory = "{{ product_category.name }}";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const stateRadios = document.querySelectorAll('.state-radio');
+        const dropdownButton = document.getElementById('stateDropdown');
+        const selectedStatesDiv = document.getElementById('selectedStates');
+        const selectedStatesList = document.getElementById('selectedStatesList');
+        const agreementFileInput = document.getElementById('agreementFile');
+        const originalStateDropdown = document.getElementById('originalStateDropdown');
+        const selectedOriginalStateDiv = document.getElementById('selectedOriginalState');
+        const selectedOriginalStateText = document.getElementById('selectedOriginalStateText');
+        const originalStateRadios = document.querySelectorAll('.original-state-radio');
+        const startReplicationBtn = document.getElementById('startReplicationBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const replicationMessage = document.getElementById('replicationMessage');
+        const resultsContent = document.getElementById('resultsContent');
+
+        let uploadedFile = null;
+
+        function updateStateSelection() {
+            const selectedRadio = document.querySelector('.state-radio:checked');
+            if (selectedRadio) {
+                const stateCode = selectedRadio.value;
+                const stateName = selectedRadio.nextElementSibling.textContent.trim();
+                dropdownButton.innerHTML = `<i class="bi bi-geo-alt me-2"></i>${stateName}`;
+                selectedStatesList.textContent = stateName;
+                selectedStatesDiv.style.display = 'block';
+            } else {
+                dropdownButton.innerHTML = `<i class="bi bi-geo-alt me-2"></i>Select State`;
+                selectedStatesDiv.style.display = 'none';
+            }
+        }
+
+        function updateOriginalStateSelection() {
+            const selectedRadio = document.querySelector('.original-state-radio:checked');
+            if (selectedRadio) {
+                const stateCode = selectedRadio.value;
+                const stateName = selectedRadio.nextElementSibling.textContent.trim();
+                originalStateDropdown.innerHTML = `<i class="bi bi-geo-alt me-2"></i>${stateName}`;
+                selectedOriginalStateText.textContent = stateName;
+                selectedOriginalStateDiv.style.display = 'block';
+            } else {
+                originalStateDropdown.innerHTML = `<i class="bi bi-geo-alt me-2"></i>Select Original State`;
+                selectedOriginalStateDiv.style.display = 'none';
+            }
+        }
+
+        // File upload handling
+        agreementFileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                uploadedFile = file;
+
+                // Update upload zone to show file name
+                const uploadIcon = document.getElementById('uploadIcon');
+                const uploadTitle = document.getElementById('uploadTitle');
+                const uploadText = document.getElementById('uploadText');
+
+                uploadIcon.className = 'bi bi-file-earmark-check';
+                uploadIcon.style.color = '#38a169';
+                uploadTitle.textContent = 'File Uploaded';
+                uploadTitle.style.color = '#38a169';
+                uploadText.textContent = file.name;
+                uploadText.style.color = '#f8f9fa';
+            }
+        });
+
+        // Drag and drop functionality
+        const uploadZone = document.querySelector('.upload-zone');
+        uploadZone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', function (e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type === 'application/pdf' || file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+                    uploadedFile = file;
+                    agreementFileInput.files = files;
+
+                    // Update upload zone to show file name
+                    const uploadIcon = document.getElementById('uploadIcon');
+                    const uploadTitle = document.getElementById('uploadTitle');
+                    const uploadText = document.getElementById('uploadText');
+
+                    uploadIcon.className = 'bi bi-file-earmark-check';
+                    uploadIcon.style.color = '#38a169';
+                    uploadTitle.textContent = 'File Uploaded';
+                    uploadTitle.style.color = '#38a169';
+                    uploadText.textContent = file.name;
+                    uploadText.style.color = '#f8f9fa';
+                } else {
+                    alert('Please upload a PDF, DOC, or DOCX file.');
+                }
+            }
+        });
+
+        // Start replication
+        startReplicationBtn.addEventListener('click', async function () {
+            if (!uploadedFile) {
+                alert('Please upload an agreement file first.');
+                return;
+            }
+
+            const selectedOriginalRadio = document.querySelector('.original-state-radio:checked');
+            if (!selectedOriginalRadio) {
+                alert('Please select the original agreement state.');
+                return;
+            }
+
+            const originalState = selectedOriginalRadio.value;
+
+            const selectedTargetRadio = document.querySelector('.state-radio:checked');
+            if (!selectedTargetRadio) {
+                alert('Please select a target state.');
+                return;
+            }
+
+            const targetState = selectedTargetRadio.value;
+
+            // Check if original state is the same as target state
+            if (targetState === originalState) {
+                alert('Original state cannot be selected as a target state.');
+                return;
+            }
+
+            // Show loading state
+            startReplicationBtn.disabled = true;
+            startReplicationBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+
+            try {
+                const formData = new FormData();
+                formData.append('agreement_file', uploadedFile);
+                formData.append('original_state', originalState);
+                formData.append('states', targetState);
+
+                const response = await fetch('/api/agreement-replication', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayReplicationResults(result);
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during replication.');
+            } finally {
+                // Reset button
+                startReplicationBtn.disabled = false;
+                startReplicationBtn.innerHTML = '<i class="bi bi-play me-2"></i>Start Replication';
+            }
+        });
+
+        // Reset functionality
+        resetBtn.addEventListener('click', function () {
+            uploadedFile = null;
+            agreementFileInput.value = '';
+            resultsContainer.style.display = 'none';
+            replicationMessage.textContent = '';
+            resultsContent.innerHTML = '';
+
+            // Reset upload zone to original state
+            const uploadIcon = document.getElementById('uploadIcon');
+            const uploadTitle = document.getElementById('uploadTitle');
+            const uploadText = document.getElementById('uploadText');
+
+            uploadIcon.className = 'bi bi-cloud-upload';
+            uploadIcon.style.color = '#a0aec0';
+            uploadTitle.textContent = 'Upload Agreement';
+            uploadTitle.style.color = '#f8f9fa';
+            uploadText.textContent = 'Drag & drop your negotiated agreement or click to browse';
+            uploadText.style.color = '#a0aec0';
+
+            // Uncheck all state radio buttons
+            stateRadios.forEach(radio => {
+                radio.checked = false;
+            });
+
+            // Uncheck all original state radio buttons
+            originalStateRadios.forEach(radio => {
+                radio.checked = false;
+            });
+
+            updateStateSelection();
+            updateOriginalStateSelection();
+        });
+
+        function displayReplicationResults(result) {
+            console.log('Displaying replication results:', result);
+
+            // Get original state name from selected radio button
+            const selectedOriginalRadio = document.querySelector('.original-state-radio:checked');
+            const originalState = selectedOriginalRadio.value;
+            const originalStateName = selectedOriginalRadio.nextElementSibling.textContent.trim();
+
+            // Get selected target state
+            const selectedTargetRadio = document.querySelector('.state-radio:checked');
+            const targetState = selectedTargetRadio ? selectedTargetRadio.value : '';
+            const targetStateName = selectedTargetRadio ? selectedTargetRadio.nextElementSibling.textContent.trim() : '';
+
+            // Add to recent replications list
+            addToRecentReplications(originalState, [targetState]);
+
+            // Display enhanced message in results container
+            replicationMessage.innerHTML = `
+                <div class="alert mb-4" style="background-color: #2d1810; border: 1px solid #38a169; border-radius: 12px; color: #f8f9fa;">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill me-3" style="color: #38a169; font-size: 1.5rem;"></i>
+                        <div>
+                            <h6 class="mb-1" style="color: #38a169; font-weight: 600;">Replication Completed Successfully</h6>
+                            <p class="mb-0" style="color: #a0aec0; font-size: 0.9rem;">
+                                Generated ${result.results.length} state-specific agreement${result.results.length > 1 ? 's' : ''} from ${originalStateName} to ${targetStateName}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            let resultsHtml = `
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 style="color: #f8f9fa; font-weight: 600; margin: 0;">
+                                <i class="bi bi-file-earmark-text me-2" style="color: #e67e22;"></i>
+                                Generated Agreements
+                            </h5>
+                            <div class="d-flex align-items-center">
+                                <span class="badge me-2" style="background-color: #38a169; color: white; border-radius: 20px; padding: 6px 12px;">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    ${result.results.length} Complete
+                                </span>
+                                <small style="color: #a0aec0;">Generated ${new Date().toLocaleString()}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            result.results.forEach((item, index) => {
+                resultsHtml += `
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
+                        <div class="card-header" style="background-color: #374151; border-bottom: 1px solid #4a5568; border-radius: 12px 12px 0 0;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">
+                                        <i class="bi bi-geo-alt me-2" style="color: #e67e22;"></i>
+                                        ${item.state_name}
+                                    </h6>
+                                    <small style="color: #a0aec0;">State Code: ${item.state}</small>
+                                </div>
+                                <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px; padding: 4px 8px;">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    ${item.status}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-file-earmark me-2" style="color: #a0aec0;"></i>
+                                    <small style="color: #a0aec0;">Agreement ID:</small>
+                                </div>
+                                <code style="background-color: #1a202c; color: #e67e22; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">
+                                    ${item.agreement_id}
+                                </code>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h6 style="color: #f8f9fa; font-weight: 600; margin-bottom: 12px;">
+                                    <i class="bi bi-gear me-2" style="color: #e67e22;"></i>
+                                    State-Specific Modifications
+                                </h6>
+                                <div style="background-color: #1a202c; border-radius: 8px; padding: 12px;">
+                                    <ul class="list-unstyled mb-0" style="margin: 0;">
+                                        ${item.modifications.map(mod => `
+                                            <li class="mb-2" style="color: #f8f9fa; font-size: 0.9rem;">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #38a169; font-size: 0.8rem;"></i>
+                                                ${mod}
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="${item.download_url}" class="btn flex-fill" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 8px; padding: 10px; font-weight: 600; text-decoration: none;" target="_blank">
+                                    <i class="bi bi-download me-2"></i>
+                                    Download PDF
+                                </a>
+                                <button class="btn" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568; border-radius: 8px; padding: 10px;" onclick="previewAgreement('${item.agreement_id}')">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            });
+
+            resultsHtml += `
+                <div class="col-12 mt-4">
+                    <div class="card" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px;">
+                        <div class="card-body p-4">
+                            <h6 style="color: #f8f9fa; font-weight: 600; margin-bottom: 12px;">
+                                <i class="bi bi-info-circle me-2" style="color: #e67e22;"></i>
+                                Next Steps
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="me-3" style="width: 32px; height: 32px; background-color: #e67e22; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-1-circle-fill text-white" style="font-size: 0.8rem;"></i>
+                                        </div>
+                                        <div>
+                                            <small style="color: #f8f9fa; font-weight: 600;">Review Agreement</small>
+                                            <div style="color: #a0aec0; font-size: 0.8rem;">Check state-specific modifications</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="me-3" style="width: 32px; height: 32px; background-color: #e67e22; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-2-circle-fill text-white" style="font-size: 0.8rem;"></i>
+                                        </div>
+                                        <div>
+                                            <small style="color: #f8f9fa; font-weight: 600;">Legal Review</small>
+                                            <div style="color: #a0aec0; font-size: 0.8rem;">Have legal team review terms</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="me-3" style="width: 32px; height: 32px; background-color: #e67e22; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                            <i class="bi bi-3-circle-fill text-white" style="font-size: 0.8rem;"></i>
+                                        </div>
+                                        <div>
+                                            <small style="color: #f8f9fa; font-weight: 600;">Execute Agreement</small>
+                                            <div style="color: #a0aec0; font-size: 0.8rem;">Proceed with signing process</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            resultsContent.innerHTML = `<div class="row">${resultsHtml}</div>`;
+            resultsContainer.style.display = 'block';
+
+            // Scroll to results
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            console.log('Results container displayed, HTML:', resultsContainer.innerHTML);
+        }
+
+        // Add preview function
+        function previewAgreement(agreementId) {
+            alert(`Preview functionality for agreement ${agreementId} would be implemented here.`);
+        }
+
+        function addToRecentReplications(originalState, selectedStates) {
+            const recentList = document.getElementById('recentReplicationsList');
+
+            // Create new list item
+            const newItem = document.createElement('div');
+            newItem.className = 'list-group-item px-3 py-3 mb-2';
+            newItem.style.cssText = 'background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;';
+            newItem.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small style="color: #a0aec0;">just now</small>
+                        <div style="color: #f8f9fa; font-weight: 500;">${productCategory} Distribution Agreement - ${originalState} to ${selectedStates.join(', ')}</div>
+                    </div>
+                    <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Completed</span>
+                </div>
+            `;
+
+            // Insert at the top of the list
+            recentList.insertBefore(newItem, recentList.firstChild);
+        }
+
+        // Add event listeners to all state radio buttons
+        stateRadios.forEach(radio => {
+            radio.addEventListener('change', updateStateSelection);
+        });
+
+        // Add event listeners to all original state radio buttons
+        originalStateRadios.forEach(radio => {
+            radio.addEventListener('change', updateOriginalStateSelection);
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.dropdown')) {
+                const dropdown = document.querySelector('.dropdown-menu');
+                if (dropdown && dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

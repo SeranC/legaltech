@@ -1,0 +1,690 @@
+{% extends "base.html" %}
+
+{% block title %}Contract Q&A - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-1">Contract Q&A</h1>
+                    <p class="text-muted mb-0">AI-powered questions with citations back to specific clauses</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 mb-2 px-3 py-2" style="background-color: #e67e22; color: white; box-shadow: 0 2px 8px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ product_category.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748;">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568;">
+                    <h5 class="mb-0" style="color: #f8f9fa;">
+                        <i class="bi bi-chat-dots me-2"></i>
+                        Ask Questions About Your Contracts
+                    </h5>
+                </div>
+                <div class="card-body" style="background-color: #1a202c;">
+                    <!-- Contract Selection -->
+                    <div class="mb-4">
+                        <label class="form-label" style="color: #f8f9fa; font-weight: 600;">
+                            <i class="bi bi-file-earmark-text me-2" style="color: #e67e22;"></i>
+                            Select Contract
+                        </label>
+                        <select class="form-select" id="contractSelect" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa;">
+                            <option value="">Choose a contract to analyze...</option>
+                            <option value="california-distribution">California Distribution Agreement v2.1 (March 15, 2024)</option>
+                            <option value="texas-service">Texas Service Agreement v1.3 (January 10, 2024)</option>
+                            <option value="florida-supply">Florida Supply Contract v1.0 (February 28, 2024)</option>
+                            <option value="newyork-license">New York License Agreement v2.0 (December 5, 2023)</option>
+                        </select>
+                    </div>
+
+                    <!-- Chat Interface -->
+                    <div class="chat-container mb-4">
+                        <div class="chat-messages" id="chatMessages" style="max-height: 400px; overflow-y: auto; padding: 1rem; background-color: #2d3748; border-radius: 8px; border: 1px solid #4a5568;">
+                            <div class="chat-message ai mb-3 p-3" style="background-color: #4a5568; border-radius: 8px; border-left: 4px solid #e67e22;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-robot me-2" style="color: #e67e22;"></i>
+                                    <strong style="color: #f8f9fa;">AI Assistant</strong>
+                                </div>
+                                <div style="color: #a0aec0;">Hello! Please select a contract from the dropdown above, then ask me questions about it. I'll provide accurate answers with citations to specific clauses and sections.</div>
+                            </div>
+                        </div>
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="questionInput" placeholder="Ask a question about your selected contract..." aria-label="Question input" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa;" disabled>
+                                <button class="btn" type="button" id="sendButton" style="background-color: #e67e22; color: white; border: 1px solid #e67e22;" disabled>
+                                    <i class="bi bi-send"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Questions -->
+                    <div class="mb-4">
+                        <h6 class="mb-3" style="color: #f8f9fa;">
+                            <i class="bi bi-lightning me-2" style="color: #e67e22;"></i>
+                            Quick Questions
+                        </h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-sm quick-question" data-question="What are the payment terms?" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568;">What are the payment terms?</button>
+                            <button class="btn btn-sm quick-question" data-question="When does the agreement expire?" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568;">When does the agreement expire?</button>
+                            <button class="btn btn-sm quick-question" data-question="What are the termination conditions?" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568;">What are the termination conditions?</button>
+                            <button class="btn btn-sm quick-question" data-question="Are there any renewal options?" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568;">Are there any renewal options?</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748;">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568;">
+                    <h6 class="mb-0" style="color: #f8f9fa;">
+                        <i class="bi bi-file-text me-2"></i>
+                        Recent Questions
+                    </h6>
+                </div>
+                <div class="card-body" style="background-color: #1a202c;">
+                    <div class="list-group list-group-flush" style="background-color: #2d3748; border-radius: 0.375rem;">
+                        <div class="list-group-item px-3 py-2" style="background-color: #2d3748; border-color: #4a5568; color: #f8f9fa;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small style="color: #a0aec0;">2 hours ago</small>
+                                    <div style="color: #f8f9fa;">What are the termination conditions?</div>
+                                </div>
+                                <i class="bi bi-check-circle" style="color: #28a745;"></i>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-3 py-2" style="background-color: #2d3748; border-color: #4a5568; color: #f8f9fa;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small style="color: #a0aec0;">1 day ago</small>
+                                    <div style="color: #f8f9fa;">Payment terms for California agreement</div>
+                                </div>
+                                <i class="bi bi-check-circle" style="color: #28a745;"></i>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-3 py-2" style="background-color: #2d3748; border-color: #4a5568; color: #f8f9fa;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small style="color: #a0aec0;">3 days ago</small>
+                                    <div style="color: #f8f9fa;">Renewal options available?</div>
+                                </div>
+                                <i class="bi bi-check-circle" style="color: #28a745;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3" style="background-color: #1a202c; border: 1px solid #2d3748;">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568;">
+                    <h6 class="mb-0" style="color: #f8f9fa;">
+                        <i class="bi bi-graph-up me-2"></i>
+                        Usage Stats
+                    </h6>
+                </div>
+                <div class="card-body" style="background-color: #1a202c;">
+                    <!-- Time Period Filter -->
+                    <div class="mb-3">
+                        <div class="btn-group w-100" role="group" aria-label="Time period filter">
+                            <input type="radio" class="btn-check" name="timeFilter" id="dayFilter" value="day">
+                            <label class="btn btn-outline-secondary" for="dayFilter" style="background-color: #2d3748; border-color: #4a5568; color: #a0aec0;">Day</label>
+                            
+                            <input type="radio" class="btn-check" name="timeFilter" id="weekFilter" value="week">
+                            <label class="btn btn-outline-secondary" for="weekFilter" style="background-color: #2d3748; border-color: #4a5568; color: #a0aec0;">Week</label>
+                            
+                            <input type="radio" class="btn-check" name="timeFilter" id="monthFilter" value="month" checked>
+                            <label class="btn btn-outline-secondary" for="monthFilter" style="background-color: #2d3748; border-color: #4a5568; color: #a0aec0;">Month</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Display -->
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <div class="p-2">
+                                <h4 class="mb-1" style="color: #3182ce;" id="questionsCount">0</h4>
+                                <small style="color: #a0aec0;">Questions Asked</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2">
+                                <h4 class="mb-1" style="color: #e67e22;" id="contractsAnalyzed">0</h4>
+                                <small style="color: #a0aec0;">Contracts Analyzed</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.thinking-dots {
+    display: inline-flex;
+    align-items: center;
+}
+
+.thinking-dots .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #e67e22;
+    margin: 0 2px;
+    animation: thinking 1.4s infinite ease-in-out both;
+}
+
+.thinking-dots .dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.thinking-dots .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.thinking-dots .dot:nth-child(3) {
+    animation-delay: 0s;
+}
+
+@keyframes thinking {
+    0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Time filter button styling */
+.btn-check:checked + .btn {
+    background-color: #e67e22 !important;
+    border-color: #e67e22 !important;
+    color: white !important;
+}
+
+.btn-check:focus + .btn {
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+}
+
+.btn:hover {
+    background-color: #4a5568 !important;
+    border-color: #6c757d !important;
+    color: #f8f9fa !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const contractSelect = document.getElementById('contractSelect');
+    const questionInput = document.getElementById('questionInput');
+    const sendButton = document.getElementById('sendButton');
+    const chatMessages = document.getElementById('chatMessages');
+    const quickQuestionButtons = document.querySelectorAll('.quick-question');
+
+    let selectedContract = null;
+    let questionCount = 0;
+    let contractsAnalyzed = new Set();
+    let currentTimeFilter = 'month';
+    
+    // Predefined stats for different time periods
+    const timePeriodStats = {
+        day: { questions: 0, contracts: 0 },
+        week: { questions: 12, contracts: 3 },
+        month: { questions: 47, contracts: 8 }
+    };
+
+    // Contract selection handler
+    contractSelect.addEventListener('change', function() {
+        selectedContract = this.value;
+        if (selectedContract) {
+            questionInput.disabled = false;
+            sendButton.disabled = false;
+            questionInput.placeholder = `Ask a question about ${this.options[this.selectedIndex].text}...`;
+            
+            // Track contract analysis
+            if (!contractsAnalyzed.has(selectedContract)) {
+                contractsAnalyzed.add(selectedContract);
+                updateUsageStats();
+            }
+            
+            // Add contract selection message
+            addAIMessage(`Great! I'm now analyzing the ${this.options[this.selectedIndex].text}. You can ask me any questions about this contract.`);
+        } else {
+            questionInput.disabled = true;
+            sendButton.disabled = true;
+            questionInput.placeholder = "Ask a question about your selected contract...";
+        }
+    });
+
+    // Send button handler
+    sendButton.addEventListener('click', function() {
+        const question = questionInput.value.trim();
+        if (question && selectedContract) {
+            askQuestion(question);
+        }
+    });
+
+    // Enter key handler
+    questionInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            const question = this.value.trim();
+            if (question && selectedContract) {
+                askQuestion(question);
+            }
+        }
+    });
+
+    // Quick question buttons
+    quickQuestionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (selectedContract) {
+                const question = this.getAttribute('data-question');
+                askQuestion(question);
+            } else {
+                addAIMessage("Please select a contract first before asking questions.");
+            }
+        });
+    });
+
+    // Time filter handlers
+    document.querySelectorAll('input[name="timeFilter"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.checked) {
+                currentTimeFilter = this.value;
+                updateUsageStats();
+            }
+        });
+    });
+
+    function askQuestion(question) {
+        // Add user message
+        addUserMessage(question);
+        
+        // Clear input
+        questionInput.value = '';
+        
+        // Show thinking bubble for 2 seconds
+        const thinkingId = addThinkingBubble();
+        
+        // After 2 seconds, show typing indicator
+        setTimeout(() => {
+            removeTypingIndicator(thinkingId);
+            const typingId = addTypingIndicator();
+            
+            // Simulate AI response after additional delay
+            setTimeout(() => {
+                removeTypingIndicator(typingId);
+                const response = generateAIResponse(question, selectedContract);
+                addAIMessage(response);
+                questionCount++;
+                updateUsageStats();
+            }, 1000 + Math.random() * 500); // Additional 1-1.5 seconds
+        }, 2000); // 2 seconds for thinking
+    }
+
+    function addUserMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message user mb-3 p-3';
+        messageDiv.style.cssText = 'background-color: #3182ce; border-radius: 8px; margin-left: 2rem;';
+        messageDiv.innerHTML = `
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-person me-2" style="color: white;"></i>
+                <strong style="color: white;">You</strong>
+            </div>
+            <div style="color: white;">${message}</div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    function addAIMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message ai mb-3 p-3';
+        messageDiv.style.cssText = 'background-color: #4a5568; border-radius: 8px; border-left: 4px solid #e67e22;';
+        messageDiv.innerHTML = `
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-robot me-2" style="color: #e67e22;"></i>
+                <strong style="color: #f8f9fa;">AI Assistant</strong>
+            </div>
+            <div style="color: #a0aec0;">${message}</div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        
+        // Add tooltip functionality to source citations
+        addSourceTooltips(messageDiv);
+        scrollToBottom();
+    }
+
+    function addTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        const typingId = 'typing-' + Date.now();
+        typingDiv.id = typingId;
+        typingDiv.className = 'chat-message ai mb-3 p-3';
+        typingDiv.style.cssText = 'background-color: #4a5568; border-radius: 8px; border-left: 4px solid #e67e22;';
+        typingDiv.innerHTML = `
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-robot me-2" style="color: #e67e22;"></i>
+                <strong style="color: #f8f9fa;">AI Assistant</strong>
+            </div>
+            <div style="color: #a0aec0;">
+                <i class="bi bi-three-dots"></i> Analyzing contract and generating response...
+            </div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        scrollToBottom();
+        return typingId;
+    }
+
+    function addThinkingBubble() {
+        const thinkingDiv = document.createElement('div');
+        const thinkingId = 'thinking-' + Date.now();
+        thinkingDiv.id = thinkingId;
+        thinkingDiv.className = 'chat-message ai mb-3 p-3';
+        thinkingDiv.style.cssText = 'background-color: #4a5568; border-radius: 8px; border-left: 4px solid #e67e22;';
+        thinkingDiv.innerHTML = `
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-robot me-2" style="color: #e67e22;"></i>
+                <strong style="color: #f8f9fa;">AI Assistant</strong>
+            </div>
+            <div style="color: #a0aec0;">
+                <div class="d-flex align-items-center">
+                    <div class="thinking-dots me-2">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <span>Thinking...</span>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(thinkingDiv);
+        scrollToBottom();
+        return thinkingId;
+    }
+
+    function removeTypingIndicator(typingId) {
+        const typingDiv = document.getElementById(typingId);
+        if (typingDiv) {
+            typingDiv.remove();
+        }
+    }
+
+    function generateAIResponse(question, contract) {
+        const responses = {
+            'california-distribution': {
+                'What are the payment terms?': `Based on Section 8.2 of your California Distribution Agreement, payment terms are as follows:<br><br>
+                <div class="mt-3" style="color: #f8f9fa;">
+                    <div class="mb-2"><strong style="color: #e67e22;">• Net 30 Days</strong> - Payment due within 30 days of invoice receipt</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Late Fee</strong> - 1.5% per month on overdue amounts</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Payment Method</strong> - Electronic transfer preferred</div>
+                </div>
+                <div class="mt-3 p-2" style="background-color: #2d3748; border-radius: 4px; border-left: 3px solid #3182ce;">
+                    <small style="color: #a0aec0;"><i class="bi bi-file-text me-1"></i>Source: Section 8.2, California Distribution Agreement v2.1</small>
+                </div>`,
+                'When does the agreement expire?': `According to Section 6.1 of your California Distribution Agreement:<br><br>
+                <div class="mt-3" style="color: #f8f9fa;">
+                    <div class="mb-2"><strong style="color: #e67e22;">• Initial Term</strong> - 3 years from March 15, 2024</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Expiration Date</strong> - March 15, 2027</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Auto-Renewal</strong> - Yes, for successive 1-year periods unless terminated</div>
+                </div>
+                <div class="mt-3 p-2" style="background-color: #2d3748; border-radius: 4px; border-left: 3px solid #3182ce;">
+                    <small style="color: #a0aec0;"><i class="bi bi-file-text me-1"></i>Source: Section 6.1, California Distribution Agreement v2.1</small>
+                </div>`,
+                'What are the termination conditions?': `Based on Section 12.1 of your California Distribution Agreement, the agreement can be terminated under the following conditions:<br><br>
+                <div class="mt-3" style="color: #f8f9fa;">
+                    <div class="mb-2"><strong style="color: #e67e22;">1. Mutual Agreement</strong> - Either party may terminate by providing 30 days written notice</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">2. Material Breach</strong> - 60 days cure period after written notice</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">3. Insolvency</strong> - Immediate termination if either party becomes insolvent</div>
+                </div>
+                <div class="mt-3 p-2" style="background-color: #2d3748; border-radius: 4px; border-left: 3px solid #3182ce;">
+                    <small style="color: #a0aec0;"><i class="bi bi-file-text me-1"></i>Source: Section 12.1, California Distribution Agreement v2.1</small>
+                </div>`,
+                'Are there any renewal options?': `Yes, according to Section 6.2 of your California Distribution Agreement:<br><br>
+                <div class="mt-3" style="color: #f8f9fa;">
+                    <div class="mb-2"><strong style="color: #e67e22;">• Automatic Renewal</strong> - Agreement renews for 1-year periods unless terminated</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Notice Period</strong> - 90 days written notice required to prevent renewal</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Terms</strong> - Same terms and conditions apply to renewals</div>
+                </div>
+                <div class="mt-3 p-2" style="background-color: #2d3748; border-radius: 4px; border-left: 3px solid #3182ce;">
+                    <small style="color: #a0aec0;"><i class="bi bi-file-text me-1"></i>Source: Section 6.2, California Distribution Agreement v2.1</small>
+                </div>`
+            },
+            'texas-service': {
+                'What are the payment terms?': `Based on Section 7.3 of your Texas Service Agreement:<br><br>
+                <div class="mt-3" style="color: #f8f9fa;">
+                    <div class="mb-2"><strong style="color: #e67e22;">• Net 45 Days</strong> - Payment due within 45 days of service completion</div>
+                    <div class="mb-2"><strong style="color: #e67e22;">• Milestone Payments</strong> - 50% upfront, 50% upon completion</div>
+                </div>
+                <div class="mt-3 p-2" style="background-color: #2d3748; border-radius: 4px; border-left: 3px solid #3182ce;">
+                    <small style="color: #a0aec0;"><i class="bi bi-file-text me-1"></i>Source: Section 7.3, Texas Service Agreement v1.3</small>
+                </div>`
+            }
+        };
+
+        const contractResponses = responses[contract] || {};
+        return contractResponses[question] || `I understand you're asking about "${question}" regarding the selected contract. Based on my analysis of the contract terms, I can provide detailed information about this topic. However, I need to review the specific clauses to give you the most accurate answer. Could you be more specific about which aspect you'd like me to focus on?`;
+    }
+
+    function updateUsageStats() {
+        const stats = timePeriodStats[currentTimeFilter];
+        
+        // Update questions count
+        const questionsElement = document.getElementById('questionsCount');
+        if (questionsElement) {
+            if (currentTimeFilter === 'day') {
+                questionsElement.textContent = questionCount; // Show session count for day
+            } else {
+                questionsElement.textContent = stats.questions;
+            }
+        }
+        
+        // Update contracts analyzed count
+        const contractsElement = document.getElementById('contractsAnalyzed');
+        if (contractsElement) {
+            if (currentTimeFilter === 'day') {
+                contractsElement.textContent = contractsAnalyzed.size; // Show session count for day
+            } else {
+                contractsElement.textContent = stats.contracts;
+            }
+        }
+    }
+
+    function addSourceTooltips(messageDiv) {
+        // Find all source citations and add tooltip functionality
+        const sourceDivs = messageDiv.querySelectorAll('div[style*="background-color: #2d3748"]');
+        sourceDivs.forEach(sourceDiv => {
+            const sourceText = sourceDiv.querySelector('small');
+            if (sourceText) {
+                // Make source clickable
+                sourceDiv.style.cursor = 'pointer';
+                sourceDiv.style.transition = 'all 0.2s ease';
+                
+                // Add hover effects
+                sourceDiv.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#4a5568';
+                    this.style.transform = 'translateY(-1px)';
+                });
+                
+                sourceDiv.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '#2d3748';
+                    this.style.transform = 'translateY(0)';
+                });
+                
+                // Add click handler for download
+                sourceDiv.addEventListener('click', function() {
+                    downloadContract();
+                });
+                
+                // Add tooltip
+                addTooltip(sourceDiv, getSourceSnippet(sourceText.textContent));
+            }
+        });
+    }
+    
+    function addTooltip(element, content) {
+        let tooltip = null;
+        
+        element.addEventListener('mouseenter', function(e) {
+            tooltip = document.createElement('div');
+            tooltip.className = 'source-tooltip';
+            tooltip.style.cssText = `
+                position: absolute;
+                background-color: #1a202c;
+                color: #f8f9fa;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: 1px solid #4a5568;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                max-width: 300px;
+                font-size: 0.875rem;
+                line-height: 1.4;
+                pointer-events: none;
+            `;
+            tooltip.innerHTML = content;
+            
+            document.body.appendChild(tooltip);
+            
+            // Position tooltip
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = (rect.left + window.scrollX) + 'px';
+            tooltip.style.top = (rect.top + window.scrollY - tooltip.offsetHeight - 8) + 'px';
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            if (tooltip) {
+                tooltip.remove();
+                tooltip = null;
+            }
+        });
+    }
+    
+    function getSourceSnippet(sourceText) {
+        const snippets = {
+            'Section 8.2, California Distribution Agreement v2.1': `
+                <div style="color: #e67e22; font-weight: 600; margin-bottom: 8px;">
+                    <i class="bi bi-file-text me-1"></i>Section 8.2 - Payment Terms
+                </div>
+                <div style="color: #a0aec0; margin-bottom: 6px;">
+                    "Payment shall be due within thirty (30) days of receipt of invoice. Late payments shall incur a service charge of one and one-half percent (1.5%) per month..."
+                </div>
+                <div style="color: #3182ce; font-size: 0.8rem;">
+                    <i class="bi bi-download me-1"></i>Click to download full contract
+                </div>
+            `,
+            'Section 6.1, California Distribution Agreement v2.1': `
+                <div style="color: #e67e22; font-weight: 600; margin-bottom: 8px;">
+                    <i class="bi bi-file-text me-1"></i>Section 6.1 - Term of Agreement
+                </div>
+                <div style="color: #a0aec0; margin-bottom: 6px;">
+                    "This Agreement shall commence on March 15, 2024 and continue for a period of three (3) years, unless earlier terminated in accordance with the provisions hereof..."
+                </div>
+                <div style="color: #3182ce; font-size: 0.8rem;">
+                    <i class="bi bi-download me-1"></i>Click to download full contract
+                </div>
+            `,
+            'Section 12.1, California Distribution Agreement v2.1': `
+                <div style="color: #e67e22; font-weight: 600; margin-bottom: 8px;">
+                    <i class="bi bi-file-text me-1"></i>Section 12.1 - Termination
+                </div>
+                <div style="color: #a0aec0; margin-bottom: 6px;">
+                    "Either party may terminate this Agreement by giving thirty (30) days written notice to the other party. In case of material breach, the non-breaching party may terminate..."
+                </div>
+                <div style="color: #3182ce; font-size: 0.8rem;">
+                    <i class="bi bi-download me-1"></i>Click to download full contract
+                </div>
+            `,
+            'Section 6.2, California Distribution Agreement v2.1': `
+                <div style="color: #e67e22; font-weight: 600; margin-bottom: 8px;">
+                    <i class="bi bi-file-text me-1"></i>Section 6.2 - Renewal
+                </div>
+                <div style="color: #a0aec0; margin-bottom: 6px;">
+                    "This Agreement shall automatically renew for successive one-year periods unless either party gives ninety (90) days written notice of non-renewal..."
+                </div>
+                <div style="color: #3182ce; font-size: 0.8rem;">
+                    <i class="bi bi-download me-1"></i>Click to download full contract
+                </div>
+            `,
+            'Section 7.3, Texas Service Agreement v1.3': `
+                <div style="color: #e67e22; font-weight: 600; margin-bottom: 8px;">
+                    <i class="bi bi-file-text me-1"></i>Section 7.3 - Payment Schedule
+                </div>
+                <div style="color: #a0aec0; margin-bottom: 6px;">
+                    "Payment shall be made in two installments: fifty percent (50%) upon execution of this Agreement and fifty percent (50%) upon completion of services..."
+                </div>
+                <div style="color: #3182ce; font-size: 0.8rem;">
+                    <i class="bi bi-download me-1"></i>Click to download full contract
+                </div>
+            `
+        };
+        
+        // Find matching snippet
+        for (const [key, snippet] of Object.entries(snippets)) {
+            if (sourceText.includes(key)) {
+                return snippet;
+            }
+        }
+        
+        // Default snippet
+        return `
+            <div style="color: #e67e22; font-weight: 600; margin-bottom: 8px;">
+                <i class="bi bi-file-text me-1"></i>Contract Section
+            </div>
+            <div style="color: #a0aec0; margin-bottom: 6px;">
+                This section contains the relevant contract terms referenced in the AI response.
+            </div>
+            <div style="color: #3182ce; font-size: 0.8rem;">
+                <i class="bi bi-download me-1"></i>Click to download full contract
+            </div>
+        `;
+    }
+    
+    function downloadContract() {
+        // Create a simple text file with contract content
+        const contractContent = `CALIFORNIA DISTRIBUTION AGREEMENT v2.1
+
+This Agreement is made and entered into on March 15, 2024, between Breakthru Beverage Group and [Counterparty].
+
+SECTION 6.1 - TERM OF AGREEMENT
+This Agreement shall commence on March 15, 2024 and continue for a period of three (3) years, unless earlier terminated in accordance with the provisions hereof.
+
+SECTION 6.2 - RENEWAL
+This Agreement shall automatically renew for successive one-year periods unless either party gives ninety (90) days written notice of non-renewal.
+
+SECTION 8.2 - PAYMENT TERMS
+Payment shall be due within thirty (30) days of receipt of invoice. Late payments shall incur a service charge of one and one-half percent (1.5%) per month on the outstanding balance.
+
+SECTION 12.1 - TERMINATION
+Either party may terminate this Agreement by giving thirty (30) days written notice to the other party. In case of material breach, the non-breaching party may terminate this Agreement by giving sixty (60) days written notice to the breaching party, provided the breach is not cured within such notice period.
+
+[Additional contract terms would be included in the full document...]`;
+
+        const blob = new Blob([contractContent], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'California_Distribution_Agreement_v2.1.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
+</script>
+{% endblock %}

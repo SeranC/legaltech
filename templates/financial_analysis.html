@@ -1,0 +1,356 @@
+{% extends "base.html" %}
+
+{% block title %}Financial Contract Analysis - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<style>
+/* Force alerts to stay visible permanently */
+.alert-permanent {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Override any Bootstrap alert animations */
+.alert {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Prevent any fade out effects */
+.alert.fade {
+    opacity: 1 !important;
+}
+
+/* Override any JavaScript that might hide alerts */
+.alert[style*="display: none"] {
+    display: block !important;
+}
+
+.alert[style*="opacity: 0"] {
+    opacity: 1 !important;
+}
+</style>
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2" style="color: #f8f9fa; font-weight: 700;">
+                        <i class="bi bi-graph-up-arrow me-3" style="color: #e67e22;"></i>
+                        Financial Contract Analysis
+                    </h1>
+                    <p class="mb-0" style="color: #a0aec0; font-size: 1.1rem;">Obligations & cross-contract analytics across your agreement portfolio</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 px-4 py-2" style="background-color: #e67e22; color: white; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 25px;">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ product_category.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Financial Overview Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100" style="background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%); border: none; border-radius: 16px; box-shadow: 0 8px 25px rgba(49, 130, 206, 0.3);">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="p-3 rounded-circle" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="bi bi-currency-dollar text-white" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0" style="color: #e2e8f0; font-weight: 600;">Total Obligations</h6>
+                                </div>
+                            </div>
+                            <h2 class="text-white mb-2" style="font-weight: 700; font-size: 2.5rem;">$2.4M</h2>
+                            <small style="color: #cbd5e0;">Across 12 active agreements</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); border: none; border-radius: 16px; box-shadow: 0 8px 25px rgba(56, 161, 105, 0.3);">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="p-3 rounded-circle" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="bi bi-calendar-month text-white" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0" style="color: #e2e8f0; font-weight: 600;">Monthly Payments</h6>
+                                </div>
+                            </div>
+                            <h2 class="text-white mb-2" style="font-weight: 700; font-size: 2.5rem;">$185K</h2>
+                            <small style="color: #cbd5e0;">Average across portfolio</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100" style="background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); border: none; border-radius: 16px; box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="p-3 rounded-circle" style="background-color: rgba(255, 255, 255, 0.2);">
+                                    <i class="bi bi-exclamation-triangle text-white" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <h6 class="mb-0" style="color: #e2e8f0; font-weight: 600;">Overdue Payments</h6>
+                                </div>
+                            </div>
+                            <h2 class="text-white mb-2" style="font-weight: 700; font-size: 2.5rem;">$47K</h2>
+                            <small style="color: #feb2b2;">Requires immediate attention</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contract Analysis Details -->
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h5 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-bar-chart me-2" style="color: #e67e22;"></i>
+                        Contract Analysis Details
+                    </h5>
+                </div>
+                <div class="card-body p-0" style="background-color: #1a202c;">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" style="background-color: #1a202c;">
+                            <thead style="background-color: #2d3748;">
+                                <tr>
+                                    <th style="color: #f8f9fa; font-weight: 600; border: none; padding: 1.5rem 1rem 1rem 1.5rem; background-color: #2d3748; width: 35%;">Contract</th>
+                                    <th style="color: #f8f9fa; font-weight: 600; border: none; padding: 1.5rem 1rem 1rem 1rem; background-color: #2d3748; width: 15%;">Value</th>
+                                    <th style="color: #f8f9fa; font-weight: 600; border: none; padding: 1.5rem 1rem 1rem 1rem; background-color: #2d3748; width: 15%;">Status</th>
+                                    <th style="color: #f8f9fa; font-weight: 600; border: none; padding: 1.5rem 1rem 1rem 1rem; background-color: #2d3748; width: 20%;">Next Payment</th>
+                                    <th style="color: #f8f9fa; font-weight: 600; border: none; padding: 1.5rem 1.5rem 1rem 1rem; background-color: #2d3748; width: 15%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody style="background-color: #1a202c;">
+                                <tr style="border-bottom: 1px solid #2d3748; background-color: #1a202c;">
+                                    <td style="border: none; padding: 1.5rem 1rem 1.5rem 1.5rem; background-color: #1a202c;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="p-2 rounded-circle me-3" style="background-color: #3182ce;">
+                                                <i class="bi bi-file-earmark-text text-white"></i>
+                                            </div>
+                                            <div>
+                                                <strong style="color: #f8f9fa; font-size: 1.1rem;">California Distribution</strong>
+                                                <br><small style="color: #a0aec0;">ABC Corp - Tech Products</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="border: none; padding: 1.5rem 1rem; color: #f8f9fa; font-weight: 600; font-size: 1.1rem; background-color: #1a202c;">$850K</td>
+                                    <td style="border: none; padding: 1.5rem 1rem; background-color: #1a202c;">
+                                        <span class="badge px-3 py-2" style="background-color: #38a169; color: white; border-radius: 20px; font-weight: 500;">Active</span>
+                                    </td>
+                                    <td style="border: none; padding: 1.5rem 1rem; color: #a0aec0; background-color: #1a202c;">Dec 15, 2024</td>
+                                    <td style="border: none; padding: 1.5rem 1.5rem 1.5rem 1rem; background-color: #1a202c;">
+                                        <button class="btn btn-sm px-3 py-2" style="background-color: #3182ce; color: white; border: none; border-radius: 20px; font-weight: 500;">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #2d3748; background-color: #1a202c;">
+                                    <td style="border: none; padding: 1.5rem 1rem 1.5rem 1.5rem; background-color: #1a202c;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="p-2 rounded-circle me-3" style="background-color: #e67e22;">
+                                                <i class="bi bi-file-earmark-text text-white"></i>
+                                            </div>
+                                            <div>
+                                                <strong style="color: #f8f9fa; font-size: 1.1rem;">New York Service Agreement</strong>
+                                                <br><small style="color: #a0aec0;">XYZ Services - Consulting</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="border: none; padding: 1.5rem 1rem; color: #f8f9fa; font-weight: 600; font-size: 1.1rem; background-color: #1a202c;">$420K</td>
+                                    <td style="border: none; padding: 1.5rem 1rem; background-color: #1a202c;">
+                                        <span class="badge px-3 py-2" style="background-color: #ed8936; color: white; border-radius: 20px; font-weight: 500;">Pending</span>
+                                    </td>
+                                    <td style="border: none; padding: 1.5rem 1rem; color: #a0aec0; background-color: #1a202c;">Jan 30, 2025</td>
+                                    <td style="border: none; padding: 1.5rem 1.5rem 1.5rem 1rem; background-color: #1a202c;">
+                                        <button class="btn btn-sm px-3 py-2" style="background-color: #3182ce; color: white; border: none; border-radius: 20px; font-weight: 500;">
+                                            <i class="bi bi-eye me-1"></i>View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="background-color: #1a202c;">
+                                    <td style="border: none; padding: 1.5rem 1rem 1.5rem 1.5rem; background-color: #1a202c;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="p-2 rounded-circle me-3" style="background-color: #e53e3e;">
+                                                <i class="bi bi-file-earmark-text text-white"></i>
+                                            </div>
+                                            <div>
+                                                <strong style="color: #f8f9fa; font-size: 1.1rem;">Texas Partnership</strong>
+                                                <br><small style="color: #a0aec0;">Global Partners - Joint Venture</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="border: none; padding: 1.5rem 1rem; color: #f8f9fa; font-weight: 600; font-size: 1.1rem; background-color: #1a202c;">$1.2M</td>
+                                    <td style="border: none; padding: 1.5rem 1rem; background-color: #1a202c;">
+                                        <span class="badge px-3 py-2" style="background-color: #e53e3e; color: white; border-radius: 20px; font-weight: 500;">Overdue</span>
+                                    </td>
+                                    <td style="border: none; padding: 1.5rem 1rem; color: #a0aec0; background-color: #1a202c;">Nov 20, 2024</td>
+                                    <td style="border: none; padding: 1.5rem 1.5rem 1.5rem 1rem; background-color: #1a202c;">
+                                        <button class="btn btn-sm px-3 py-2" style="background-color: #e53e3e; color: white; border: none; border-radius: 20px; font-weight: 500;">
+                                            <i class="bi bi-flag me-1"></i>Flag Urgent
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Upcoming Payments -->
+            <div class="card mb-4" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-calendar-event me-2" style="color: #e67e22;"></i>
+                        Upcoming Payments
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-4 py-3" style="background-color: #1a202c; border-color: #2d3748;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-2 rounded-circle me-3" style="background-color: #38a169;">
+                                        <i class="bi bi-check-circle text-white"></i>
+                                    </div>
+                                    <div>
+                                        <small style="color: #a0aec0;">Dec 15, 2024</small>
+                                        <div style="color: #f8f9fa; font-weight: 500;">California Distribution - ABC Corp</div>
+                                        <strong style="color: #f8f9fa; font-size: 1.1rem;">$75,000</strong>
+                                    </div>
+                                </div>
+                                <span class="badge px-3 py-2" style="background-color: #38a169; color: white; border-radius: 20px; font-weight: 500;">On Track</span>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-4 py-3" style="background-color: #1a202c; border-color: #2d3748;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-2 rounded-circle me-3" style="background-color: #ed8936;">
+                                        <i class="bi bi-clock text-white"></i>
+                                    </div>
+                                    <div>
+                                        <small style="color: #a0aec0;">Jan 30, 2025</small>
+                                        <div style="color: #f8f9fa; font-weight: 500;">New York Service - XYZ Services</div>
+                                        <strong style="color: #f8f9fa; font-size: 1.1rem;">$35,000</strong>
+                                    </div>
+                                </div>
+                                <span class="badge px-3 py-2" style="background-color: #ed8936; color: white; border-radius: 20px; font-weight: 500;">Due Soon</span>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-4 py-3" style="background-color: #1a202c; border-color: #2d3748;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-2 rounded-circle me-3" style="background-color: #e53e3e;">
+                                        <i class="bi bi-exclamation-triangle text-white"></i>
+                                    </div>
+                                    <div>
+                                        <small style="color: #a0aec0;">Nov 20, 2024</small>
+                                        <div style="color: #f8f9fa; font-weight: 500;">Texas Partnership - Global Partners</div>
+                                        <strong style="color: #f8f9fa; font-size: 1.1rem;">$47,000</strong>
+                                    </div>
+                                </div>
+                                <span class="badge px-3 py-2" style="background-color: #e53e3e; color: white; border-radius: 20px; font-weight: 500;">Overdue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Alerts -->
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-exclamation-triangle me-2" style="color: #e67e22;"></i>
+                        Risk Alerts
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-permanent mb-3" style="background-color: #2d1810; border: 1px solid #e53e3e; border-radius: 12px; color: #f8f9fa; display: block !important; opacity: 1 !important; visibility: visible !important;" data-bs-dismiss="false" data-auto-dismiss="false">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-exclamation-triangle me-3" style="color: #e53e3e; font-size: 1.2rem; margin-top: 0.2rem;"></i>
+                            <div>
+                                <strong style="color: #e53e3e;">Overdue Payment:</strong> Texas Partnership agreement requires immediate attention.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-permanent mb-0" style="background-color: #2d1f0f; border: 1px solid #ed8936; border-radius: 12px; color: #f8f9fa; display: block !important; opacity: 1 !important; visibility: visible !important;" data-bs-dismiss="false" data-auto-dismiss="false">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-clock me-3" style="color: #ed8936; font-size: 1.2rem; margin-top: 0.2rem;"></i>
+                            <div>
+                                <strong style="color: #ed8936;">Expiring Soon:</strong> 3 agreements expiring within 90 days.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Prevent any auto-dismissal of alerts
+    const alerts = document.querySelectorAll('.alert-permanent');
+    alerts.forEach(alert => {
+        // Remove any existing auto-dismiss timers
+        if (alert._autoDismissTimer) {
+            clearTimeout(alert._autoDismissTimer);
+            delete alert._autoDismissTimer;
+        }
+        
+        // Prevent Bootstrap alert auto-dismiss
+        alert.setAttribute('data-bs-dismiss', 'false');
+        alert.setAttribute('data-auto-dismiss', 'false');
+        
+        // Force visibility
+        alert.style.display = 'block';
+        alert.style.opacity = '1';
+        alert.style.visibility = 'visible';
+        
+        // Override any fade classes
+        alert.classList.remove('fade');
+        alert.classList.add('alert-permanent');
+    });
+    
+    // Override any global alert dismissal
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.alert-permanent')) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    
+    // Prevent any JavaScript from hiding these alerts
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && 
+                (mutation.attributeName === 'style' || mutation.attributeName === 'class')) {
+                const target = mutation.target;
+                if (target.classList.contains('alert-permanent')) {
+                    target.style.display = 'block';
+                    target.style.opacity = '1';
+                    target.style.visibility = 'visible';
+                }
+            }
+        });
+    });
+    
+    alerts.forEach(alert => {
+        observer.observe(alert, {
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+    });
+});
+</script>
+{% endblock %}

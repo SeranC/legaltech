@@ -1,0 +1,1580 @@
+{% extends "base.html" %}
+
+{% block title %}Create Agreement - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4" id="create-agreement-root">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="h2 mb-2" style="color: #f8f9fa; font-weight: 700;">
+            <i class="bi bi-file-earmark-plus me-3" style="color: #e67e22;"></i>
+            Create New Agreement
+          </h1>
+          <p class="mb-0" style="color: #a0aec0; font-size: 1.1rem;">Wizard-based agreement generation with clause suggestions, validation, and export</p>
+        </div>
+        <div class="text-end">
+          <div class="badge fs-6 px-4 py-2" style="background-color: #e67e22; color: white; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 25px;">
+            <i class="bi bi-tag-fill me-2"></i>
+            {{ product_category.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- LEFT: WIZARD -->
+    <div class="col-lg-8">
+      <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+        <div class="card-header d-flex align-items-center justify-content-between" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+          <h5 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+            <i class="bi bi-file-earmark-plus me-2" style="color: #e67e22;"></i>
+            Agreement Wizard
+          </h5>
+          <div class="small" style="color: #a0aec0;">
+            <span id="step-label">Step 1 of 4</span>
+            <span class="mx-2">•</span>
+            <span id="step-name">Basic Information</span>
+          </div>
+        </div>
+        <div class="card-body p-4">
+          <!-- Progress Indicator -->
+          <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <small style="color: #a0aec0;" id="step-pct-label">0% Complete</small>
+            </div>
+            <div class="progress" style="height: 8px; background-color: #2d3748; border-radius: 4px;">
+              <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); border-radius: 4px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+
+          <!-- Stepper Nav -->
+          <ul class="nav nav-pills mb-4" id="wizard-steps">
+            <li class="nav-item me-2"><button class="nav-link active" data-step="0"><i class="bi bi-1-circle me-1"></i> Basic</button></li>
+            <li class="nav-item me-2"><button class="nav-link" data-step="1"><i class="bi bi-2-circle me-1"></i> Inputs</button></li>
+            <li class="nav-item me-2"><button class="nav-link" data-step="2"><i class="bi bi-3-circle me-1"></i> Review</button></li>
+            <li class="nav-item"><button class="nav-link" data-step="3"><i class="bi bi-4-circle me-1"></i> Generate</button></li>
+          </ul>
+
+          <!-- STEP 0: BASIC -->
+          <div class="wizard-step" data-step="0">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" style="color: #f8f9fa; font-weight: 600;">Agreement Type</label>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle w-100 text-start" type="button" id="agreementTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 8px; padding: 12px;">
+                    <i class="bi bi-file-earmark-text me-2"></i>
+                    <span id="agreement-type-label">Distribution Agreement</span>
+                  </button>
+                  <ul class="dropdown-menu w-100" aria-labelledby="agreementTypeDropdown" style="background-color: #ffffff; border: 1px solid #4a5568; border-radius: 8px;">
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input agreement-type-radio" type="radio" name="agreementType" value="Distribution Agreement" id="agreement-Distribution" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="agreement-Distribution" style="color: #2d3748;">
+                            Distribution Agreement
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input agreement-type-radio" type="radio" name="agreementType" value="Service Agreement" id="agreement-Service" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="agreement-Service" style="color: #2d3748;">
+                            Service Agreement
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input agreement-type-radio" type="radio" name="agreementType" value="License Agreement" id="agreement-License" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="agreement-License" style="color: #2d3748;">
+                            License Agreement
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input agreement-type-radio" type="radio" name="agreementType" value="Partnership Agreement" id="agreement-Partnership" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="agreement-Partnership" style="color: #2d3748;">
+                            Partnership Agreement
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" style="color: #f8f9fa; font-weight: 600;">Target State</label>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle w-100 text-start" type="button" id="targetStateDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 8px; padding: 12px;">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    <span id="target-state-label">California</span>
+                  </button>
+                  <ul class="dropdown-menu w-100" aria-labelledby="targetStateDropdown" style="background-color: #ffffff; border: 1px solid #4a5568; border-radius: 8px;">
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input target-state-radio" type="radio" name="targetState" value="California" id="target-California" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="target-California" style="color: #2d3748;">
+                            California
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input target-state-radio" type="radio" name="targetState" value="New York" id="target-NewYork" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="target-NewYork" style="color: #2d3748;">
+                            New York
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input target-state-radio" type="radio" name="targetState" value="Texas" id="target-Texas" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="target-Texas" style="color: #2d3748;">
+                            Texas
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item" style="color: #2d3748; background-color: transparent;">
+                        <div class="form-check">
+                          <input class="form-check-input target-state-radio" type="radio" name="targetState" value="Florida" id="target-Florida" style="accent-color: #e67e22;">
+                          <label class="form-check-label" for="target-Florida" style="color: #2d3748;">
+                            Florida
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="agreementTitle" class="form-label" style="color: #f8f9fa; font-weight: 600;">Agreement Title</label>
+                <input type="text" class="form-control" id="agreementTitle" placeholder="e.g., CA Spirits Distribution Agreement – Supplier A" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 8px; padding: 12px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 1: BUSINESS INPUTS -->
+          <div class="wizard-step d-none" data-step="1">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Supplier Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="supplierName" placeholder="Supplier A Holdings LLC">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Effective Date <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="date" class="form-control" id="effectiveDate" name="effectiveDate" autocomplete="off" min="1900-01-01" max="2100-12-31">
+                  <button class="btn btn-outline-primary" type="button" id="today-btn" title="Set to today">
+                    <i class="bi bi-calendar-check"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Territory <span class="text-danger">*</span></label>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle w-100 text-start dropdown-transparent" type="button" id="territoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    <span id="territory-label">State of California</span>
+                  </button>
+                  <ul class="dropdown-menu w-100 dropdown-menu-transparent" aria-labelledby="territoryDropdown">
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input territory-radio" type="radio" name="territory" value="State of California" id="territory-California">
+                          <label class="form-check-label" for="territory-California">
+                            State of California
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input territory-radio" type="radio" name="territory" value="State of Florida" id="territory-Florida">
+                          <label class="form-check-label" for="territory-Florida">
+                            State of Florida
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input territory-radio" type="radio" name="territory" value="State of Texas" id="territory-Texas">
+                          <label class="form-check-label" for="territory-Texas">
+                            State of Texas
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input territory-radio" type="radio" name="territory" value="State of New York" id="territory-NewYork">
+                          <label class="form-check-label" for="territory-NewYork">
+                            State of New York
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Payment Cadence <span class="text-danger">*</span></label>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle w-100 text-start dropdown-transparent" type="button" id="paymentCadenceDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-cash me-2"></i>
+                    <span id="payment-cadence-label">Net 30</span>
+                  </button>
+                  <ul class="dropdown-menu w-100 dropdown-menu-transparent" aria-labelledby="paymentCadenceDropdown">
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input payment-cadence-radio" type="radio" name="paymentCadence" value="Net 15" id="payment-Net15">
+                          <label class="form-check-label" for="payment-Net15">
+                            Net 15
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input payment-cadence-radio" type="radio" name="paymentCadence" value="Net 30" id="payment-Net30">
+                          <label class="form-check-label" for="payment-Net30">
+                            Net 30
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input payment-cadence-radio" type="radio" name="paymentCadence" value="Net 45" id="payment-Net45">
+                          <label class="form-check-label" for="payment-Net45">
+                            Net 45
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input payment-cadence-radio" type="radio" name="paymentCadence" value="Net 60" id="payment-Net60">
+                          <label class="form-check-label" for="payment-Net60">
+                            Net 60
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input payment-cadence-radio" type="radio" name="paymentCadence" value="Due on Receipt" id="payment-DueOnReceipt">
+                          <label class="form-check-label" for="payment-DueOnReceipt">
+                            Due on Receipt
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Exclusivity</label>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle w-100 text-start dropdown-transparent" type="button" id="exclusivityDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-shield-check me-2"></i>
+                    <span id="exclusivity-label">Exclusive</span>
+                  </button>
+                  <ul class="dropdown-menu w-100 dropdown-menu-transparent" aria-labelledby="exclusivityDropdown">
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input exclusivity-radio" type="radio" name="exclusivity" value="Exclusive" id="exclusivity-Exclusive">
+                          <label class="form-check-label" for="exclusivity-Exclusive">
+                            Exclusive
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input exclusivity-radio" type="radio" name="exclusivity" value="Non-exclusive" id="exclusivity-Non-exclusive">
+                          <label class="form-check-label" for="exclusivity-Non-exclusive">
+                            Non-exclusive
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Renewal</label>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle w-100 text-start dropdown-transparent" type="button" id="renewalDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-arrow-repeat me-2"></i>
+                    <span id="renewal-label">Auto</span>
+                  </button>
+                  <ul class="dropdown-menu w-100 dropdown-menu-transparent" aria-labelledby="renewalDropdown">
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input renewal-radio" type="radio" name="renewal" value="Auto" id="renewal-Auto">
+                          <label class="form-check-label" for="renewal-Auto">
+                            Auto
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="dropdown-item dropdown-item-transparent">
+                        <div class="form-check">
+                          <input class="form-check-input renewal-radio" type="radio" name="renewal" value="Manual" id="renewal-Manual">
+                          <label class="form-check-label" for="renewal-Manual">
+                            Manual
+                          </label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Optional Riders</label>
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="riderMarketing" checked>
+                    <label class="form-check-label" for="riderMarketing">Marketing Fund</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="riderReturns">
+                    <label class="form-check-label" for="riderReturns">Returns</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="riderQA" checked>
+                    <label class="form-check-label" for="riderQA">Quality Assurance</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="alert alert-warning d-flex align-items-start" id="merge-warning" style="display:none;">
+                  <i class="bi bi-exclamation-triangle me-2 mt-1"></i>
+                  <div>
+                    <div class="fw-semibold mb-1">Missing required merge fields:</div>
+                    <div id="merge-missing" class="d-flex flex-wrap gap-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: REVIEW & RISK -->
+          <div class="wizard-step d-none" data-step="2">
+            <!-- Summary Section -->
+            <div class="card mb-4">
+              <div class="card-header bg-light">
+                <h6 class="mb-0 d-flex align-items-center">
+                  <i class="bi bi-list-check me-2 text-primary"></i>
+                  Agreement Summary
+                  <small class="text-muted ms-auto">Review your selections</small>
+                </h6>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-dark table-hover mb-0">
+                    <tbody id="summary-table">
+                      <tr>
+                        <th class="border-0 fw-semibold text-light" style="width: 200px;">
+                          <i class="bi bi-file-earmark-text me-2"></i>Agreement Type
+                        </th>
+                        <td class="border-0 fw-medium text-light" id="summary-agreement-type">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-geo-alt me-2"></i>Target State
+                        </th>
+                        <td class="fw-medium text-light" id="summary-target-state">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-tag me-2"></i>Agreement Title
+                        </th>
+                        <td class="fw-medium text-light" id="summary-agreement-title">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-building me-2"></i>Supplier Name
+                        </th>
+                        <td class="fw-medium text-light" id="summary-supplier-name">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-calendar-event me-2"></i>Effective Date
+                        </th>
+                        <td class="fw-medium text-light" id="summary-effective-date">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-geo me-2"></i>Territory
+                        </th>
+                        <td class="fw-medium text-light" id="summary-territory">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-cash me-2"></i>Payment Cadence
+                        </th>
+                        <td class="fw-medium text-light" id="summary-payment-cadence">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-shield-check me-2"></i>Exclusivity
+                        </th>
+                        <td class="fw-medium text-light" id="summary-exclusivity">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-arrow-repeat me-2"></i>Renewal
+                        </th>
+                        <td class="fw-medium text-light" id="summary-renewal">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-plus-circle me-2"></i>Optional Riders
+                        </th>
+                        <td class="fw-medium text-light" id="summary-riders">—</td>
+                      </tr>
+                      <tr>
+                        <th class="fw-semibold text-light">
+                          <i class="bi bi-file-earmark-check me-2"></i>Standard Clauses
+                        </th>
+                        <td class="fw-medium text-light" id="summary-clauses">—</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Risk & Policy Hints Section -->
+            <div class="card">
+              <div class="card-header bg-light">
+                <h6 class="mb-0 d-flex align-items-center">
+                  <i class="bi bi-shield-check me-2 text-warning"></i>
+                  Risk & Policy Analysis
+                  <small class="text-muted ms-auto">AI-powered recommendations</small>
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="alert alert-info border-0 bg-light d-flex align-items-start">
+                  <div class="flex-shrink-0 me-3">
+                    <i class="bi bi-lightning-charge text-primary fs-4"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="fw-semibold text-primary mb-2">Policy Recommendation</div>
+                    <div class="mb-2">
+                      <strong>NY State Policy:</strong> Termination notice periods should be ≥ 90 days for beverage distribution agreements.
+                    </div>
+                    <div class="text-muted small mb-3">
+                      <i class="bi bi-info-circle me-1"></i>
+                      If Target State is New York and Termination & Notice < 90 days, we suggest extending to 90 days for compliance.
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <button type="button" class="btn btn-outline-primary btn-sm me-2" id="apply-suggestion-btn">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Apply Recommendation
+                      </button>
+                      <span class="small text-success d-none" id="applied-badge">
+                        <i class="bi bi-check-circle-fill me-1"></i>
+                        Applied successfully
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Additional Risk Indicators -->
+                <div class="row g-3 mt-2">
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center p-2 border rounded bg-success bg-opacity-10">
+                      <i class="bi bi-check-circle-fill text-success me-2"></i>
+                      <small class="text-success fw-semibold">Low Risk - Standard Terms</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex align-items-center p-2 border rounded bg-info bg-opacity-10">
+                      <i class="bi bi-info-circle-fill text-info me-2"></i>
+                      <small class="text-info fw-semibold">Policy Compliant</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: GENERATE & SHARE -->
+          <div class="wizard-step d-none" data-step="3">
+            <!-- AI-Powered Recommendations Section -->
+            <div class="card mb-4" id="ai-recommendations" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+              <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                <h6 class="mb-0 d-flex align-items-center" style="color: #f8f9fa; font-weight: 600;">
+                  <i class="bi bi-robot me-2" style="color: #e67e22;"></i>
+                  AI-Powered Recommendations
+                  <small class="ms-auto" style="color: #a0aec0;">Smart suggestions for your agreement</small>
+                </h6>
+              </div>
+              <div class="card-body p-4">
+                <div class="row g-4">
+                  <!-- Clause Optimization -->
+                  <div class="col-md-6">
+                    <div class="recommendation-card" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; padding: 20px; height: 100%;">
+                      <div class="d-flex align-items-start mb-3">
+                        <div class="icon-container me-3" style="background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%); border-radius: 12px; padding: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                          <i class="bi bi-lightbulb-fill" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">Clause Optimization</h6>
+                          <p class="mb-3" style="color: #a0aec0; font-size: 0.9rem; line-height: 1.4;">Consider adding a force majeure clause for comprehensive risk protection. This is recommended for beverage distribution agreements.</p>
+                          <button class="btn btn-sm" id="add-force-majeure-btn" style="background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 600;">
+                            <i class="bi bi-plus-circle me-1"></i>Add Clause
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Risk Assessment -->
+                  <div class="col-md-6">
+                    <div class="recommendation-card" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; padding: 20px; height: 100%;">
+                      <div class="d-flex align-items-start mb-3">
+                        <div class="icon-container me-3" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); border-radius: 12px; padding: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                          <i class="bi bi-shield-exclamation" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">Risk Assessment</h6>
+                          <p class="mb-3" style="color: #a0aec0; font-size: 0.9rem; line-height: 1.4;">High-value territories may benefit from enhanced termination protections. Consider extending notice periods for California agreements.</p>
+                          <button class="btn btn-sm" id="enhance-termination-btn" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 600;">
+                            <i class="bi bi-arrow-up-circle me-1"></i>Enhance Protection
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Compliance Check -->
+                  <div class="col-md-6">
+                    <div class="recommendation-card" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; padding: 20px; height: 100%;">
+                      <div class="d-flex align-items-start mb-3">
+                        <div class="icon-container me-3" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); border-radius: 12px; padding: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                          <i class="bi bi-check-circle-fill" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">Compliance Check</h6>
+                          <p class="mb-3" style="color: #a0aec0; font-size: 0.9rem; line-height: 1.4;">All selected terms comply with current beverage industry regulations. Payment terms align with standard market practices.</p>
+                          <div class="d-flex align-items-center">
+                            <span class="badge me-2" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); color: white; border-radius: 20px; padding: 6px 12px; font-weight: 600;">
+                              <i class="bi bi-check-circle me-1"></i>Compliant
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Negotiation Insights -->
+                  <div class="col-md-6">
+                    <div class="recommendation-card" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; padding: 20px; height: 100%;">
+                      <div class="d-flex align-items-start mb-3">
+                        <div class="icon-container me-3" style="background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%); border-radius: 12px; padding: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                          <i class="bi bi-graph-up" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">Negotiation Insights</h6>
+                          <p class="mb-3" style="color: #a0aec0; font-size: 0.9rem; line-height: 1.4;">Based on similar agreements, your payment terms are competitive. Consider adding volume-based discounts for long-term supplier relationships.</p>
+                          <button class="btn btn-sm" id="add-volume-discount-btn" style="background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 600;">
+                            <i class="bi bi-percent me-1"></i>Add Discount Terms
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Document Generation -->
+            <div class="card mb-4">
+              <div class="card-header">
+                <h6 class="mb-0 d-flex align-items-center">
+                  <i class="bi bi-file-earmark-text me-2"></i>
+                  Generated Document
+                  <small class="text-muted ms-auto">Ready for review and sharing</small>
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label class="form-label">Merged Draft (demo)</label>
+                  <textarea class="form-control" id="draft-output" rows="8"></textarea>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                  <button class="btn btn-outline-secondary" id="copy-draft-btn">
+                    <i class="bi bi-clipboard me-1"></i>Copy Draft
+                  </button>
+                  <button class="btn btn-outline-primary" id="generate-link-btn">
+                    <i class="bi bi-link-45deg me-1"></i>Generate Pre‑signed Link
+                  </button>
+                  <button class="btn btn-primary" id="export-terms-btn">
+                    <i class="bi bi-filetype-csv me-1"></i>Export Term Sheet
+                  </button>
+                  <button class="btn btn-outline-success" id="download-docx-btn">
+                    <i class="bi bi-file-earmark-word me-1"></i>Download DOCX
+                  </button>
+                </div>
+                <div class="mt-2 small text-muted" id="link-output"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wizard footer -->
+          <div class="d-flex justify-content-between mt-4">
+            <button class="btn" id="prev-btn" disabled style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568; border-radius: 12px; padding: 12px 24px; font-weight: 600;">
+              <i class="bi bi-arrow-left me-2"></i> Previous
+            </button>
+            <button class="btn" id="next-btn" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 12px; padding: 12px 24px; font-weight: 600;">
+              Next Step <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: AI SUGGESTIONS / CLAUSES -->
+    <div class="col-lg-4">
+      <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+        <div class="card-header d-flex align-items-center justify-content-between" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+          <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;"><i class="bi bi-robot me-2" style="color: #e67e22;"></i>AI Suggestions</h6>
+          <button class="btn btn-sm" id="apply-all-clauses" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 8px; padding: 6px 12px; font-weight: 600;"><i class="bi bi-magic me-1"></i>Apply all</button>
+        </div>
+        <div class="card-body p-4">
+          <!-- Standard Clauses -->
+          <div class="mb-3">
+            <h6 class="small fw-semibold mb-2" style="color: #a0aec0;">STANDARD CLAUSES</h6>
+            <div class="list-group list-group-flush" style="background-color: transparent;">
+              <label class="list-group-item px-3 py-3 mb-2 d-flex align-items-center" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                <input class="form-check-input me-3" type="checkbox" id="clauseTermination" checked style="accent-color: #e67e22;">
+                <small class="flex-grow-1" style="color: #f8f9fa; font-weight: 500;">Termination Clause</small>
+                <i class="bi bi-check-circle-fill text-success small" title="Recommended"></i>
+              </label>
+              <label class="list-group-item px-3 py-3 mb-2 d-flex align-items-center" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                <input class="form-check-input me-3" type="checkbox" id="clauseConfidentiality" checked style="accent-color: #e67e22;">
+                <small class="flex-grow-1" style="color: #f8f9fa; font-weight: 500;">Confidentiality Agreement</small>
+                <i class="bi bi-check-circle-fill text-success small" title="Recommended"></i>
+              </label>
+              <label class="list-group-item px-3 py-3 mb-2 d-flex align-items-center" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                <input class="form-check-input me-3" type="checkbox" id="clauseForceMajeure" style="accent-color: #e67e22;">
+                <small class="flex-grow-1" style="color: #f8f9fa; font-weight: 500;">Force Majeure</small>
+                <i class="bi bi-star-fill text-warning small" title="Highly Recommended"></i>
+              </label>
+              <label class="list-group-item px-3 py-3 mb-2 d-flex align-items-center" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                <input class="form-check-input me-3" type="checkbox" id="clauseIndemnification" style="accent-color: #e67e22;">
+                <small class="flex-grow-1" style="color: #f8f9fa; font-weight: 500;">Indemnification</small>
+                <i class="bi bi-shield-check text-info small" title="Optional"></i>
+              </label>
+              <label class="list-group-item px-3 py-3 d-flex align-items-center" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; color: #f8f9fa;">
+                <input class="form-check-input me-3" type="checkbox" id="clauseGoverningLaw" style="accent-color: #e67e22;">
+                <small class="flex-grow-1" style="color: #f8f9fa; font-weight: 500;">Governing Law</small>
+                <i class="bi bi-geo-alt text-primary small" title="State-specific"></i>
+              </label>
+            </div>
+          </div>
+
+          <!-- AI-Powered Insights -->
+          <div class="mb-3">
+            <h6 class="small fw-semibold mb-2" style="color: #a0aec0;">AI INSIGHTS</h6>
+            <div class="rounded p-3 mb-3" style="background-color: #2d1810; border: 1px solid #e67e22; border-radius: 12px;">
+              <div class="d-flex align-items-start">
+                <i class="bi bi-lightbulb-fill text-warning me-3 mt-1 small"></i>
+                <div>
+                  <small class="fw-semibold" style="color: #e67e22;">Risk Mitigation</small>
+                  <div class="small" style="color: #a0aec0;">Consider adding dispute resolution clause for California agreements.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded p-3 mb-3" style="background-color: #1a202c; border: 1px solid #3182ce; border-radius: 12px;">
+              <div class="d-flex align-items-start">
+                <i class="bi bi-graph-up text-info me-3 mt-1 small"></i>
+                <div>
+                  <small class="fw-semibold text-info">Market Intelligence</small>
+                  <div class="small" style="color: #a0aec0;">Net 30 terms are standard for beverage distribution in your region.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded p-3 mb-3" style="background-color: #1a202c; border: 1px solid #38a169; border-radius: 12px;">
+              <div class="d-flex align-items-start">
+                <i class="bi bi-check-circle-fill text-success me-3 mt-1 small"></i>
+                <div>
+                  <small class="fw-semibold text-success">Compliance Check</small>
+                  <div class="small" style="color: #a0aec0;">All selected terms comply with current regulations.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div>
+            <h6 class="small fw-semibold mb-2" style="color: #a0aec0;">QUICK ACTIONS</h6>
+            <div class="d-grid gap-2">
+              <button class="btn btn-sm" id="optimize-for-state" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568; border-radius: 8px; padding: 8px 12px; font-weight: 600;">
+                <i class="bi bi-geo me-1"></i>Optimize for State
+              </button>
+              <button class="btn btn-sm" id="add-industry-standards" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568; border-radius: 8px; padding: 8px 12px; font-weight: 600;">
+                <i class="bi bi-star me-1"></i>Add Industry Standards
+              </button>
+              <button class="btn btn-sm" id="enhance-risk-protection" style="background-color: #2d3748; color: #f8f9fa; border: 1px solid #4a5568; border-radius: 8px; padding: 8px 12px; font-weight: 600;">
+                <i class="bi bi-shield me-1"></i>Enhance Risk Protection
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-3" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+        <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;"><h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;"><i class="bi bi-journal-text me-2" style="color: #e67e22;"></i>Merge Fields</h6></div>
+        <div class="card-body p-4">
+          <div class="d-flex flex-wrap gap-2" id="required-fields">
+            <span class="badge rounded-pill" style="background-color: #4a5568; color: #f8f9fa; padding: 6px 12px;">{{SupplierName}}</span>
+            <span class="badge rounded-pill" style="background-color: #4a5568; color: #f8f9fa; padding: 6px 12px;">{{EffectiveDate}}</span>
+            <span class="badge rounded-pill" style="background-color: #4a5568; color: #f8f9fa; padding: 6px 12px;">{{Territory}}</span>
+            <span class="badge rounded-pill" style="background-color: #4a5568; color: #f8f9fa; padding: 6px 12px;">{{PaymentCadence}}</span>
+          </div>
+          <div class="small mt-2" style="color: #a0aec0;">All must resolve before sharing.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<style>
+/* Dark theme styling for create agreement page */
+.form-control {
+    background-color: #2d3748 !important;
+    border: 1px solid #4a5568 !important;
+    color: #f8f9fa !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+}
+
+.form-control:focus {
+    background-color: #2d3748 !important;
+    border-color: #e67e22 !important;
+    color: #f8f9fa !important;
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25) !important;
+}
+
+.form-control::placeholder {
+    color: #a0aec0 !important;
+}
+
+/* Dropdown styling */
+.dropdown-menu {
+    background-color: #2d3748 !important;
+    border: 1px solid #4a5568 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.dropdown-item {
+    background-color: transparent !important;
+    color: #f8f9fa !important;
+    border: none !important;
+}
+
+.dropdown-item:hover {
+    background-color: #4a5568 !important;
+    color: #f8f9fa !important;
+}
+
+.dropdown-item:focus {
+    background-color: #4a5568 !important;
+    color: #f8f9fa !important;
+}
+
+.dropdown-item:active {
+    background-color: #4a5568 !important;
+    color: #f8f9fa !important;
+}
+
+/* Override the global dropdown-item-transparent class */
+.dropdown-item-transparent {
+    background-color: transparent !important;
+    color: #f8f9fa !important;
+}
+
+.dropdown-item-transparent:hover {
+    background-color: #4a5568 !important;
+    color: #f8f9fa !important;
+}
+
+/* Form check styling */
+.form-check-input {
+    accent-color: #e67e22 !important;
+}
+
+/* Recommendation card styling */
+.recommendation-card {
+    transition: all 0.3s ease;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.recommendation-card .icon-container {
+    transition: all 0.3s ease;
+}
+
+.recommendation-card:hover .icon-container {
+    transform: scale(1.1);
+}
+
+.form-check-label {
+    color: #f8f9fa !important;
+}
+
+/* Nav pills styling */
+.nav-pills .nav-link {
+    background-color: #2d3748 !important;
+    color: #a0aec0 !important;
+    border: 1px solid #4a5568 !important;
+    border-radius: 8px !important;
+    margin-right: 8px !important;
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #e67e22 0%, #d35400 100%) !important;
+    color: white !important;
+    border-color: #e67e22 !important;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: #4a5568 !important;
+    color: #f8f9fa !important;
+}
+
+/* Button hover effects */
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Quick action button hover effects */
+#optimize-for-state:hover,
+#add-industry-standards:hover,
+#enhance-risk-protection:hover {
+    background-color: #4a5568 !important;
+    border-color: #6b7280 !important;
+}
+
+/* Apply all button hover effect */
+#apply-all-clauses:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4);
+}
+</style>
+
+{% block extra_scripts %}
+<script>
+(function() {
+  // ---------- State ----------
+  const state = {
+    step: 0,
+    steps: [
+      { name: 'Basic Information' },
+      { name: 'Business Inputs' },
+      { name: 'Review & Risk' },
+      { name: 'Generate & Share' },
+    ],
+    data: {
+      agreementType: 'Distribution Agreement',
+      targetState: 'California',
+      agreementTitle: '',
+      supplierName: '',
+      effectiveDate: '',
+      territory: 'State of California',
+      paymentCadence: 'Net 30',
+      exclusivity: 'Exclusive',
+      renewal: 'Auto',
+      riders: { marketing: true, returns: false, qa: true },
+      clauses: { termination: true, confidentiality: true, forceMajeure: false },
+    },
+    requiredFields: ['supplierName','effectiveDate','territory','paymentCadence'],
+  };
+
+  // ---------- Elements ----------
+  const $ = (sel) => document.querySelector(sel);
+  const $all = (sel) => Array.from(document.querySelectorAll(sel));
+  const stepLabel = $('#step-label');
+  const stepName = $('#step-name');
+  const stepPct = $('#step-pct-label');
+  const progressBar = $('#progress-bar');
+  const prevBtn = $('#prev-btn');
+  const nextBtn = $('#next-btn');
+
+  // dropdown handlers
+  const agreementTypeBtn = $('#agreementTypeDropdown');
+  const agreementTypeLabel = $('#agreement-type-label');
+  const targetStateBtn = $('#targetStateDropdown');
+  const targetStateLabel = $('#target-state-label');
+  const territoryBtn = $('#territoryDropdown');
+  const territoryLabel = $('#territory-label');
+  const paymentCadenceBtn = $('#paymentCadenceDropdown');
+  const paymentCadenceLabel = $('#payment-cadence-label');
+  const exclusivityBtn = $('#exclusivityDropdown');
+  const exclusivityLabel = $('#exclusivity-label');
+  const renewalBtn = $('#renewalDropdown');
+  const renewalLabel = $('#renewal-label');
+
+  // inputs
+  const titleInput = $('#agreementTitle');
+  const supplierInput = $('#supplierName');
+  const effectiveDateInput = $('#effectiveDate');
+  const todayBtn = $('#today-btn');
+
+  // riders & clauses
+  const riderMarketing = $('#riderMarketing');
+  const riderReturns = $('#riderReturns');
+  const riderQA = $('#riderQA');
+  const clauseTermination = $('#clauseTermination');
+  const clauseConfidentiality = $('#clauseConfidentiality');
+  const clauseForceMajeure = $('#clauseForceMajeure');
+  const applyAllClausesBtn = $('#apply-all-clauses');
+
+  // merge field UI
+  const mergeWarning = $('#merge-warning');
+  const mergeMissing = $('#merge-missing');
+
+  // Review
+  const summaryTable = $('#summary-table');
+  const applySuggestionBtn = $('#apply-suggestion-btn');
+  const appliedBadge = $('#applied-badge');
+
+  // Generate & Share
+  const draftOutput = $('#draft-output');
+  const copyDraftBtn = $('#copy-draft-btn');
+  const generateLinkBtn = $('#generate-link-btn');
+  const linkOutput = $('#link-output');
+  const exportTermsBtn = $('#export-terms-btn');
+
+  // ---------- Utils ----------
+  
+  // Prevent AI recommendations from disappearing
+  const preventAIRecommendationsDisappearing = () => {
+    const aiRecommendations = document.getElementById('ai-recommendations');
+    if (aiRecommendations && !aiRecommendations.classList.contains('d-none')) {
+      const alerts = aiRecommendations.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+        // Remove any auto-dismiss attributes
+        alert.removeAttribute('data-bs-dismiss');
+        alert.removeAttribute('data-auto-dismiss');
+        
+        // Force visibility
+        alert.style.setProperty('display', 'block', 'important');
+        alert.style.setProperty('opacity', '1', 'important');
+        alert.style.setProperty('visibility', 'visible', 'important');
+        alert.style.setProperty('animation', 'none', 'important');
+        alert.style.setProperty('transition', 'none', 'important');
+        
+        // Prevent any click-to-dismiss
+        alert.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      });
+    }
+  };
+
+  const setStep = (idx) => {
+    state.step = Math.max(0, Math.min(idx, state.steps.length - 1));
+
+    // toggle step content
+    $all('.wizard-step').forEach((el) => {
+      const stepId = Number(el.getAttribute('data-step'));
+      el.classList.toggle('d-none', stepId !== state.step);
+    });
+    
+
+    // pills active
+    $all('#wizard-steps .nav-link').forEach((btn) => {
+      btn.classList.toggle('active', Number(btn.dataset.step) === state.step);
+    });
+
+    // header & progress
+    stepLabel.textContent = `Step ${state.step + 1} of ${state.steps.length}`;
+    stepName.textContent = state.steps[state.step].name;
+    const pct = Math.round(((state.step) / (state.steps.length - 1)) * 100);
+    stepPct.textContent = `${pct}% Complete`;
+    progressBar.style.width = pct + '%';
+    progressBar.setAttribute('aria-valuenow', pct);
+
+    // footer buttons
+    prevBtn.disabled = state.step === 0;
+    nextBtn.innerHTML = (state.step === state.steps.length - 1)
+      ? '<i class="bi bi-check2-circle me-2"></i>Finish'
+      : 'Next Step <i class="bi bi-arrow-right ms-2"></i>';
+
+    // Clear any previous validation highlighting when changing steps
+    clearValidationHighlights();
+  };
+
+  const clearValidationHighlights = () => {
+    // Clear text inputs
+    $all('input[type="text"], input[type="date"], textarea').forEach(input => {
+      input.classList.remove('is-invalid');
+    });
+    // Clear dropdown buttons
+    $all('.dropdown button').forEach(btn => {
+      btn.classList.remove('is-invalid');
+    });
+  };
+
+  const highlightMissingFields = (missingFields) => {
+    clearValidationHighlights();
+
+    missingFields.forEach(field => {
+      switch(field) {
+        case 'supplierName':
+          $('#supplierName').classList.add('is-invalid');
+          break;
+        case 'effectiveDate':
+          $('#effectiveDate').classList.add('is-invalid');
+          break;
+        case 'territory':
+          $('#territoryDropdown').classList.add('is-invalid');
+          break;
+        case 'paymentCadence':
+          $('#paymentCadenceDropdown').classList.add('is-invalid');
+          break;
+        case 'agreementTitle':
+          $('#agreementTitle').classList.add('is-invalid');
+          break;
+      }
+    });
+  };
+
+  const validateRequired = () => {
+    const missing = state.requiredFields.filter((key) => !String(state.data[key] || '').trim());
+    if (missing.length) {
+      mergeWarning.style.display = '';
+      mergeMissing.innerHTML = '';
+      missing.forEach((m) => {
+        const token = {
+          supplierName: '{{SupplierName}}',
+          effectiveDate: '{{EffectiveDate}}',
+          territory: '{{Territory}}',
+          paymentCadence: '{{PaymentCadence}}',
+        }[m] || m;
+        const span = document.createElement('span');
+        span.className = 'badge rounded-pill text-bg-danger';
+        span.textContent = token;
+        mergeMissing.appendChild(span);
+      });
+    } else {
+      mergeWarning.style.display = 'none';
+    }
+    return missing;
+  };
+
+  const renderSummary = () => {
+    // Update individual summary items
+    $('#summary-agreement-type').textContent = state.data.agreementType;
+    $('#summary-target-state').textContent = state.data.targetState;
+    $('#summary-agreement-title').textContent = state.data.agreementTitle || '—';
+    $('#summary-supplier-name').textContent = state.data.supplierName || '—';
+    $('#summary-effective-date').textContent = state.data.effectiveDate || '—';
+    $('#summary-territory').textContent = state.data.territory || '—';
+    $('#summary-payment-cadence').textContent = state.data.paymentCadence || '—';
+    $('#summary-exclusivity').textContent = state.data.exclusivity;
+    $('#summary-renewal').textContent = state.data.renewal;
+
+    // Handle riders
+    const activeRiders = Object.entries(state.data.riders)
+      .filter(([,v]) => v)
+      .map(([k]) => k.charAt(0).toUpperCase() + k.slice(1))
+      .join(', ');
+    $('#summary-riders').textContent = activeRiders || '—';
+
+    // Handle clauses
+    const activeClauses = Object.entries(state.data.clauses)
+      .filter(([,v]) => v)
+      .map(([k]) => k.charAt(0).toUpperCase() + k.slice(1))
+      .join(', ');
+    $('#summary-clauses').textContent = activeClauses || '—';
+  };
+
+  const buildDraft = () => {
+    const s = state.data;
+    const header = `${s.targetState} ${s.agreementType} — ${s.agreementTitle || 'Untitled'}`;
+
+    // Build comprehensive legal agreement content
+    const intro = `This ${s.agreementType.toLowerCase()} (the "Agreement") is entered into as of ${s.effectiveDate || '[Effective Date]'}, by and between Breakthru Beverage Group, a Delaware corporation with its principal place of business at [Address] ("BBG"), and ${s.supplierName || '{{SupplierName}}'}, a [Entity Type] with its principal place of business at [Address] (the "Supplier").`;
+
+    const recitals = `WHEREAS, BBG is engaged in the business of distributing beverages throughout the United States;
+
+WHEREAS, Supplier is engaged in the business of manufacturing and supplying [Product Category] beverages;
+
+WHEREAS, BBG desires to appoint Supplier as its exclusive distributor for [Product Category] products in the Territory, and Supplier desires to accept such appointment;
+
+NOW, THEREFORE, in consideration of the mutual promises and covenants contained herein, the parties agree as follows:`;
+
+    const definitions = `1. DEFINITIONS
+
+1.1 "Products" means [Product Category] beverages manufactured by Supplier and supplied to BBG under this Agreement.
+
+1.2 "Territory" means ${s.territory || '{{Territory}}'}.
+
+1.3 "Term" means the period commencing on the Effective Date and continuing for [Term Length] years, unless earlier terminated as provided herein.`;
+
+    const appointment = `2. APPOINTMENT AND EXCLUSIVITY
+
+2.1 Appointment. BBG hereby appoints Supplier as its ${s.exclusivity.toLowerCase()} distributor of Products in the Territory, and Supplier accepts such appointment.
+
+2.2 Exclusivity. During the Term, Supplier shall not appoint any other distributor for Products in the Territory without BBG's prior written consent.`;
+
+    const pricing = `3. PRICING AND PAYMENT
+
+3.1 Pricing. The prices for Products shall be as set forth in Exhibit A attached hereto.
+
+3.2 Payment Terms. BBG shall pay Supplier for Products within ${s.paymentCadence || '{{PaymentCadence}}'} of receipt of a correct invoice.
+
+3.3 Late Payments. Any amounts not paid when due shall bear interest at the rate of 1.5% per month or the maximum rate permitted by law, whichever is less.`;
+
+    const delivery = `4. DELIVERY AND ACCEPTANCE
+
+4.1 Delivery. Supplier shall deliver Products to BBG's designated warehouse locations in accordance with the delivery schedule set forth in Exhibit B.
+
+4.2 Quality Control. All Products shall meet the specifications set forth in Exhibit C and shall be free from defects.
+
+4.3 Acceptance. BBG shall have [Acceptance Period] days to inspect and accept or reject delivered Products.`;
+
+    const marketing = `5. MARKETING AND PROMOTION
+
+5.1 Marketing Fund. ${s.riders.marketing ? 'Supplier shall contribute [Percentage]% of net sales to a marketing fund for advertising and promotion of Products in the Territory.' : 'No marketing fund requirements apply.'}
+
+5.2 Trade Shows. Supplier shall provide [Number] complimentary cases of Products for BBG's participation in trade shows and promotional events.`;
+
+    const term = `6. TERM AND TERMINATION
+
+6.1 Term. This Agreement shall commence on the Effective Date and continue for [Initial Term] years, with ${s.renewal.toLowerCase()} renewal for successive [Renewal Term] year periods unless terminated as provided herein.
+
+6.2 Termination for Cause. Either party may terminate this Agreement immediately upon written notice if the other party:
+   (a) becomes insolvent or bankrupt;
+   (b) materially breaches this Agreement and fails to cure within [Cure Period] days after notice; or
+   (c) ceases to conduct business in the ordinary course.
+
+6.3 Termination for Convenience. Either party may terminate this Agreement upon [Notice Period] days' written notice to the other party.`;
+
+    const clauses = [];
+
+    if (s.clauses.confidentiality) {
+      clauses.push(`7. CONFIDENTIALITY
+
+7.1 Confidential Information. Each party agrees to maintain the confidentiality of the other's proprietary information, including but not limited to trade secrets, customer lists, pricing information, and business plans.
+
+7.2 Non-Disclosure. Neither party shall disclose Confidential Information to any third party without the prior written consent of the disclosing party.
+
+7.3 Duration. The obligations of confidentiality shall survive for [Confidentiality Period] years after termination of this Agreement.`);
+    }
+
+    if (s.clauses.forceMajeure) {
+      clauses.push(`8. FORCE MAJEURE
+
+8.1 Force Majeure Events. Neither party shall be liable for failure to perform its obligations under this Agreement if such failure is caused by events beyond its reasonable control, including but not limited to acts of God, war, terrorism, strikes, or government regulations.
+
+8.2 Notice. The affected party shall promptly notify the other party of any Force Majeure event and use reasonable efforts to mitigate its effects.
+
+8.3 Duration. Force Majeure shall not extend the term of this Agreement beyond [Maximum Extension] months.`);
+    }
+
+    if (s.clauses.termination) {
+      clauses.push(`9. TERMINATION
+
+9.1 Termination Rights. Either party may terminate this Agreement upon [Termination Notice Period] days' written notice to the other party.
+
+9.2 Post-Termination Obligations. Upon termination, Supplier shall continue to supply Products for [Post-Termination Period] months to allow BBG to transition to alternative suppliers.
+
+9.3 Return of Materials. Each party shall return or destroy all Confidential Information and materials belonging to the other party within [Return Period] days of termination.`);
+    }
+
+    const governing = `10. GOVERNING LAW
+
+10.1 Governing Law. This Agreement shall be governed by and construed in accordance with the laws of the State of ${s.targetState}, without regard to its conflict of laws principles.
+
+10.2 Dispute Resolution. Any disputes arising under this Agreement shall be resolved through binding arbitration in ${s.targetState} in accordance with the rules of the American Arbitration Association.
+
+10.3 Jurisdiction. Each party consents to the exclusive jurisdiction of the state and federal courts located in ${s.targetState} for any litigation arising out of this Agreement.`;
+
+    const misc = `11. MISCELLANEOUS
+
+11.1 Entire Agreement. This Agreement constitutes the entire understanding between the parties and supersedes all prior agreements.
+
+11.2 Amendments. This Agreement may only be amended by written instrument signed by both parties.
+
+11.3 Severability. If any provision of this Agreement is held invalid, the remainder shall continue in full force and effect.
+
+11.4 Notices. All notices shall be in writing and delivered to the addresses specified above.
+
+11.5 Counterparts. This Agreement may be executed in counterparts, each of which shall be deemed an original.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first above written.
+
+BREAKTHRU BEVERAGE GROUP                    ${s.supplierName || '{{SupplierName}}'}
+
+By: _______________________________         By: _______________________________
+Name: _____________________________         Name: _____________________________
+Title: ____________________________          Title: ____________________________
+
+[End of Agreement Preview - Full document contains additional exhibits and schedules]`;
+
+    // Combine all sections
+    const fullContent = [
+      header,
+      '='.repeat(header.length),
+      '',
+      intro,
+      '',
+      recitals,
+      '',
+      definitions,
+      '',
+      appointment,
+      '',
+      pricing,
+      '',
+      delivery,
+      '',
+      marketing,
+      '',
+      term,
+      '',
+      ...clauses.map(clause => clause + '\n'),
+      governing,
+      '',
+      misc
+    ].join('\n');
+
+    // Limit preview to approximately 2000 characters to show key sections without overwhelming
+    const previewLimit = 2000;
+    let preview = fullContent;
+    if (fullContent.length > previewLimit) {
+      preview = fullContent.substring(0, previewLimit - 100) + '\n\n[... Content truncated for preview ...]\n\n' + fullContent.substring(fullContent.length - 200);
+    }
+
+    draftOutput.value = preview;
+  };
+
+  const makePresigned = (name) => {
+    const ts = Date.now().toString(36);
+    return `https://s3.amazonaws.com/bbg-legaltech-demo/generated/${encodeURIComponent(name)}?token=${ts}`;
+  }
+
+  // ---------- Event wiring ----------
+  // Step pills (clickable)
+  $all('#wizard-steps .nav-link').forEach((btn) => {
+    btn.addEventListener('click', () => setStep(Number(btn.dataset.step)));
+  });
+
+  // Dropdown selections (radio buttons)
+  const exclusivityRadios = document.querySelectorAll('.exclusivity-radio');
+  const renewalRadios = document.querySelectorAll('.renewal-radio');
+  const territoryRadios = document.querySelectorAll('.territory-radio');
+  const paymentCadenceRadios = document.querySelectorAll('.payment-cadence-radio');
+  const agreementTypeRadios = document.querySelectorAll('.agreement-type-radio');
+  const targetStateRadios = document.querySelectorAll('.target-state-radio');
+
+  // Set default radio button selections
+  document.getElementById('exclusivity-Exclusive').checked = true;
+  document.getElementById('renewal-Auto').checked = true;
+  document.getElementById('territory-California').checked = true;
+  document.getElementById('payment-Net30').checked = true;
+  document.getElementById('agreement-Distribution').checked = true;
+  document.getElementById('target-California').checked = true;
+
+  // Radio button event handlers
+  exclusivityRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        const val = e.target.value;
+        state.data.exclusivity = val;
+        exclusivityLabel.textContent = val;
+      }
+    });
+  });
+
+  renewalRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        const val = e.target.value;
+        state.data.renewal = val;
+        renewalLabel.textContent = val;
+      }
+    });
+  });
+
+  territoryRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        const val = e.target.value;
+        state.data.territory = val;
+        territoryLabel.textContent = val;
+      }
+    });
+  });
+
+  paymentCadenceRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        const val = e.target.value;
+        state.data.paymentCadence = val;
+        paymentCadenceLabel.textContent = val;
+      }
+    });
+  });
+
+  agreementTypeRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        const val = e.target.value;
+        state.data.agreementType = val;
+        agreementTypeLabel.textContent = val;
+      }
+    });
+  });
+
+  targetStateRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        const val = e.target.value;
+        state.data.targetState = val;
+        targetStateLabel.textContent = val;
+      }
+    });
+  });
+
+  // Step 1 dropdowns (radio buttons handled above)
+
+  // Today button functionality
+  todayBtn.addEventListener('click', () => {
+    const today = new Date();
+    const todayISO = today.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+    effectiveDateInput.value = todayISO;
+    state.data.effectiveDate = today.toLocaleDateString();
+  });
+
+  // Date input change handler
+  effectiveDateInput.addEventListener('change', (e) => {
+    const selectedDate = new Date(e.target.value);
+    if (selectedDate) {
+      state.data.effectiveDate = selectedDate.toLocaleDateString();
+    } else {
+      state.data.effectiveDate = '';
+    }
+    // Clear validation highlight when user selects a date
+    if (e.target.classList.contains('is-invalid')) {
+      e.target.classList.remove('is-invalid');
+    }
+  });
+
+  // Dropdown change handlers to clear validation highlighting
+  territoryBtn.addEventListener('click', () => {
+    if (territoryBtn.classList.contains('is-invalid')) {
+      territoryBtn.classList.remove('is-invalid');
+    }
+  });
+
+  paymentCadenceBtn.addEventListener('click', () => {
+    if (paymentCadenceBtn.classList.contains('is-invalid')) {
+      paymentCadenceBtn.classList.remove('is-invalid');
+    }
+  });
+
+  // Inputs
+  titleInput.addEventListener('input', (e) => {
+    state.data.agreementTitle = e.target.value;
+    // Clear validation highlight when user starts typing
+    if (e.target.classList.contains('is-invalid')) {
+      e.target.classList.remove('is-invalid');
+    }
+  });
+  supplierInput.addEventListener('input', (e) => {
+    state.data.supplierName = e.target.value;
+    // Clear validation highlight when user starts typing
+    if (e.target.classList.contains('is-invalid')) {
+      e.target.classList.remove('is-invalid');
+    }
+  });
+
+  // Riders & Clauses
+  riderMarketing.addEventListener('change', (e) => state.data.riders.marketing = e.target.checked);
+  riderReturns.addEventListener('change', (e) => state.data.riders.returns = e.target.checked);
+  riderQA.addEventListener('change', (e) => state.data.riders.qa = e.target.checked);
+  clauseTermination.addEventListener('change', (e) => state.data.clauses.termination = e.target.checked);
+  clauseConfidentiality.addEventListener('change', (e) => state.data.clauses.confidentiality = e.target.checked);
+  clauseForceMajeure.addEventListener('change', (e) => state.data.clauses.forceMajeure = e.target.checked);
+  applyAllClausesBtn.addEventListener('click', () => {
+    clauseTermination.checked = clauseConfidentiality.checked = clauseForceMajeure.checked = true;
+    state.data.clauses = { termination: true, confidentiality: true, forceMajeure: true };
+    buildDraft();
+  });
+
+  // Apply policy suggestion
+  applySuggestionBtn.addEventListener('click', () => {
+    // For demo: just ensure termination is present and show applied badge
+    state.data.clauses.termination = true;
+    clauseTermination.checked = true;
+    appliedBadge.classList.remove('d-none');
+    setTimeout(() => appliedBadge.classList.add('d-none'), 2000);
+    buildDraft();
+  });
+
+  // Footer actions
+  prevBtn.addEventListener('click', () => setStep(state.step - 1));
+  nextBtn.addEventListener('click', () => {
+    if (state.step === 0) {
+      // Validate Step 0 fields
+      const step0Missing = [];
+      if (!state.data.agreementTitle.trim()) {
+        step0Missing.push('agreementTitle');
+      }
+      if (step0Missing.length) {
+        highlightMissingFields(step0Missing);
+        // Focus first missing field
+        if (step0Missing.includes('agreementTitle')) {
+          titleInput.focus();
+        }
+        return;
+      }
+    } else if (state.step === 1) {
+      const missing = validateRequired();
+      if (missing.length) {
+        // Highlight all missing fields
+        highlightMissingFields(missing);
+        // Focus first missing field
+        const first = missing[0];
+        if (first === 'supplierName') {
+          supplierInput.focus();
+        } else if (first === 'effectiveDate') {
+          effectiveDateInput.focus();
+        } else if (first === 'territory') {
+          territoryBtn.focus();
+        } else if (first === 'paymentCadence') {
+          paymentCadenceBtn.focus();
+        }
+        return;
+      }
+      // If validation passes and we're moving to step 2, prepare the review content
+      renderSummary();
+      buildDraft();
+    }
+    if (state.step < state.steps.length - 1) setStep(state.step + 1);
+  });
+
+  // Generate & Share buttons
+  copyDraftBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(draftOutput.value);
+      linkOutput.textContent = 'Draft copied to clipboard.';
+    } catch (e) {
+      linkOutput.textContent = 'Copy failed – select the text and copy manually.';
+    }
+  });
+
+  generateLinkBtn.addEventListener('click', async () => {
+    const name = `${state.data.targetState}-${state.data.agreementType}.docx`;
+    const url = makePresigned(name);
+    try { await navigator.clipboard.writeText(url); } catch(e) {}
+    linkOutput.textContent = `Pre-signed link generated: ${url}`;
+  });
+
+  exportTermsBtn.addEventListener('click', () => {
+    // Very small CSV demo export
+    const rows = [
+      ['Field','Value'],
+      ['Supplier', state.data.supplierName],
+      ['EffectiveDate', state.data.effectiveDate],
+      ['Territory', state.data.territory],
+      ['PaymentCadence', state.data.paymentCadence],
+      ['Exclusivity', state.data.exclusivity],
+      ['Renewal', state.data.renewal],
+    ];
+    const csv = rows.map(r => r.map(x => '"' + (x ?? '') + '"').join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'term_sheet.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    linkOutput.textContent = 'Term sheet exported (CSV).';
+  });
+
+  // Manual nav via pills enforces validation on entering Review/Generate
+  $all('#wizard-steps .nav-link').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const targetStep = Number(btn.dataset.step);
+      if (targetStep > state.step) {
+        // Validate current step before allowing navigation forward
+        if (state.step === 0) {
+          const step0Missing = [];
+          if (!state.data.agreementTitle.trim()) {
+            step0Missing.push('agreementTitle');
+          }
+          if (step0Missing.length) {
+            highlightMissingFields(step0Missing);
+            e.preventDefault();
+            return;
+          }
+        } else if (state.step === 1) {
+          const missing = validateRequired();
+          if (missing.length) {
+            highlightMissingFields(missing);
+            e.preventDefault();
+            return;
+          }
+        }
+      }
+      if (targetStep >= 2) {
+        renderSummary();
+        buildDraft();
+      }
+      setStep(targetStep);
+    });
+  });
+
+  // Initial render
+  setStep(0);
+})();
+</script>
+{% endblock %}

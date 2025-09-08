@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Term Sheet Generation - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-1">Term Sheet Generation</h1>
+                    <p class="text-muted mb-0">Automated extraction from agreements into structured term sheets</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 mb-2 px-3 py-2" style="background-color: #e67e22; color: white; box-shadow: 0 2px 8px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ product_category.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-table me-2"></i>
+                        Generate Term Sheet
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Upload an executed agreement to automatically extract key terms into a structured term sheet.
+                    </div>
+
+                    <!-- Upload Zone -->
+                    <div class="upload-zone mb-4">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                        <h5 class="mt-3">Upload Agreement</h5>
+                        <p class="text-muted">Drag & drop your agreement or click to browse</p>
+                        <input type="file" class="d-none" id="termSheetFile" accept=".pdf,.doc,.docx">
+                        <button class="btn btn-primary" onclick="document.getElementById('termSheetFile').click()">
+                            <i class="bi bi-folder me-2"></i>
+                            Choose File
+                        </button>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary">
+                            <i class="bi bi-play me-2"></i>
+                            Generate Term Sheet
+                        </button>
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-download me-2"></i>
+                            Download Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generated Term Sheet Preview -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-eye me-2"></i>
+                        Term Sheet Preview
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold" style="width: 200px;">Agreement Type:</td>
+                                    <td>Distribution Agreement</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Effective Date:</td>
+                                    <td>January 1, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Term Length:</td>
+                                    <td>3 years with auto-renewal</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Payment Terms:</td>
+                                    <td>Net 30 days</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Termination:</td>
+                                    <td>60 days written notice</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Governing Law:</td>
+                                    <td>State of California</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-clock me-2"></i>
+                        Recent Term Sheets
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted">1 week ago</small>
+                                    <div>California Distribution Agreement</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted">2 weeks ago</small>
+                                    <div>New York Service Agreement</div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

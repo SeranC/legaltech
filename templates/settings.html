@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-1">Settings</h1>
+                    <p class="text-muted mb-0">Manage your account preferences and application settings</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 mb-2 px-3 py-2"
+                        style="background-color: #e67e22; color: white; box-shadow: 0 2px 8px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ product_category.name if product_category else "All Products" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Profile Settings -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person me-2"></i>
+                        Profile Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info border-0 d-flex align-items-start mb-4" style="background-color: var(--bbg-primary); color: white; border-radius: 0.5rem;">
+                        <i class="bi bi-info-circle text-white me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-semibold text-white mb-1">Profile Information</div>
+                            <div class="small text-white opacity-75">Update your profile information and preferences.</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label" style="color: #f5f5dc !important;">First Name</label>
+                                <input type="text" class="form-control" id="firstName" value="{{ user.name.split(' ')[0] }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label" style="color: #f5f5dc !important;">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" value="{{ user.name.split(' ')[-1] }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: #f5f5dc !important;">Email Address</label>
+                        <input type="email" class="form-control" id="email" value="{{ user.email }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="department" class="form-label" style="color: #f5f5dc !important;">Department</label>
+                        <input type="text" class="form-control" id="department" value="{{ user.department }}">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" id="saveProfileBtn">
+                            <i class="bi bi-save me-2"></i>
+                            Save Profile
+                        </button>
+                        <button class="btn btn-outline-secondary" id="resetProfileBtn">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-bell me-2"></i>
+                        Notification Preferences
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info border-0 d-flex align-items-start mb-4" style="background-color: var(--bbg-primary); color: white; border-radius: 0.5rem;">
+                        <i class="bi bi-bell text-white me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-semibold text-white mb-1">Notification Settings</div>
+                            <div class="small text-white opacity-75">Configure how you receive notifications and updates.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                            <label class="form-check-label" for="emailNotifications">
+                                Email notifications for contract updates
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="paymentReminders" checked>
+                            <label class="form-check-label" for="paymentReminders">
+                                Payment due date reminders
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="systemUpdates">
+                            <label class="form-check-label" for="systemUpdates">
+                                System maintenance notifications
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="weeklyReports" checked>
+                            <label class="form-check-label" for="weeklyReports">
+                                Weekly activity reports
+                            </label>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" id="saveNotificationsBtn">
+                            <i class="bi bi-save me-2"></i>
+                            Save Preferences
+                        </button>
+                        <button class="btn btn-outline-secondary" id="resetNotificationsBtn">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-shield me-2"></i>
+                        Security Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info border-0 d-flex align-items-start mb-4" style="background-color: var(--bbg-primary); color: white; border-radius: 0.5rem;">
+                        <i class="bi bi-shield text-white me-2 mt-1"></i>
+                        <div>
+                            <div class="fw-semibold text-white mb-1">Account Security</div>
+                            <div class="small text-white opacity-75">Manage your password and security preferences.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label" style="color: #f5f5dc !important;">Current Password</label>
+                        <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label" style="color: #f5f5dc !important;">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label" style="color: #f5f5dc !important;">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="twoFactorAuth">
+                            <label class="form-check-label" for="twoFactorAuth">
+                                Enable two-factor authentication
+                            </label>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" id="updateSecurityBtn">
+                            <i class="bi bi-save me-2"></i>
+                            Update Security
+                        </button>
+                        <button class="btn btn-outline-secondary" id="resetSecurityBtn">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Account Information
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Account Status:</strong>
+                        <span class="badge bg-success ms-2">Active</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Role:</strong>
+                        <span class="ms-2">{{ user_role.name }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Department:</strong>
+                        <span class="ms-2">{{ user.department }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Last Login:</strong>
+                        <span class="ms-2">Today</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-download me-2"></i>
+                        Data Export
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-3" style="color: var(--bbg-text-muted);">Download a copy of your data including contracts, settings, and activity history.</p>
+                    <button class="btn btn-outline-primary w-100" id="exportDataBtn">
+                        <i class="bi bi-download me-2"></i>
+                        Export My Data
+                    </button>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Danger Zone
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="small mb-3" style="color: var(--bbg-text-muted);">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                    <button class="btn btn-outline-danger w-100" id="deleteAccountBtn">
+                        <i class="bi bi-trash me-2"></i>
+                        Delete Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile settings functionality
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    const resetProfileBtn = document.getElementById('resetProfileBtn');
+
+    saveProfileBtn.addEventListener('click', function() {
+        // Show loading state
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+        this.disabled = true;
+
+        // Simulate save operation
+        setTimeout(() => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+            // Show success message (you would implement actual save logic here)
+            alert('Profile saved successfully!');
+        }, 1000);
+    });
+
+    resetProfileBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset all profile changes?')) {
+            document.getElementById('firstName').value = "{{ user.name.split(' ')[0] }}";
+            document.getElementById('lastName').value = "{{ user.name.split(' ')[-1] }}";
+            document.getElementById('email').value = "{{ user.email }}";
+            document.getElementById('department').value = "{{ user.department }}";
+        }
+    });
+
+    // Notification settings functionality
+    const saveNotificationsBtn = document.getElementById('saveNotificationsBtn');
+    const resetNotificationsBtn = document.getElementById('resetNotificationsBtn');
+
+    saveNotificationsBtn.addEventListener('click', function() {
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+        this.disabled = true;
+
+        setTimeout(() => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+            alert('Notification preferences saved successfully!');
+        }, 1000);
+    });
+
+    resetNotificationsBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset notification preferences?')) {
+            document.getElementById('emailNotifications').checked = true;
+            document.getElementById('paymentReminders').checked = true;
+            document.getElementById('systemUpdates').checked = false;
+            document.getElementById('weeklyReports').checked = true;
+        }
+    });
+
+    // Security settings functionality
+    const updateSecurityBtn = document.getElementById('updateSecurityBtn');
+    const resetSecurityBtn = document.getElementById('resetSecurityBtn');
+
+    updateSecurityBtn.addEventListener('click', function() {
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            alert('Please fill in all password fields.');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            alert('New passwords do not match.');
+            return;
+        }
+
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Updating...';
+        this.disabled = true;
+
+        setTimeout(() => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+            alert('Security settings updated successfully!');
+            // Clear password fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }, 1000);
+    });
+
+    resetSecurityBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset security settings?')) {
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            document.getElementById('twoFactorAuth').checked = false;
+        }
+    });
+
+    // Export data functionality
+    const exportDataBtn = document.getElementById('exportDataBtn');
+    exportDataBtn.addEventListener('click', function() {
+        const originalText = this.innerHTML;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Preparing...';
+        this.disabled = true;
+
+        setTimeout(() => {
+            this.innerHTML = originalText;
+            this.disabled = false;
+            alert('Data export initiated. You will receive an email when ready.');
+        }, 1500);
+    });
+
+    // Delete account functionality
+    const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+    deleteAccountBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            if (confirm('This will permanently delete all your data. Are you absolutely sure?')) {
+                const originalText = this.innerHTML;
+                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Deleting...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    alert('Account deletion initiated. You will be logged out.');
+                    // In a real app, this would redirect to logout
+                }, 2000);
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4" style="padding-top: 2rem !important;">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2" style="color: #f8f9fa; font-weight: 700;">
+                        <i class="bi bi-house-door me-3" style="color: #e67e22;"></i>
+                        Welcome Back, {{ user.name }}!
+                    </h1>
+                    <p class="mb-0" style="color: #a0aec0; font-size: 1.1rem;">{{ user_role.name }} Team • {{ product_category.name }} Agreements</p>
+                </div>
+                <div class="text-end">
+                    <div class="dropdown">
+                        <button class="badge fs-6 mb-2 dropdown-toggle text-decoration-none px-4 py-2" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #e67e22; color: white; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 25px;">
+                            <i class="bi bi-tag-fill me-2"></i>
+                            {{ product_category.name }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="background-color: #2c1810; border: 1px solid #e67e22; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3); min-width: 200px; border-radius: 12px;">
+                            {% for category in categories %}
+                            <li>
+                                <a class="dropdown-item {% if category.id == product_category.id %}active current-category{% else %}other-category{% endif %}" href="#" onclick="changeCategory('{{ category.id }}', '{{ category.name }}')" style="color: #f8f9fa; padding: 8px 16px; {% if category.id == product_category.id %}pointer-events: none; opacity: 0.6; background-color: #e67e22;{% else %}background-color: transparent;{% endif %}" onmouseover="this.style.backgroundColor='#e67e22'; this.style.color='white';" onmouseout="this.style.backgroundColor='{% if category.id == product_category.id %}#e67e22{% else %}transparent{% endif %}'; this.style.color='#f8f9fa';">
+                                    <i class="bi bi-circle-fill me-2 {% if category.id == product_category.id %}current-indicator{% else %}other-indicator{% endif %}"></i>
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('select_category') }}">
+                                <i class="bi bi-gear me-2"></i>Advanced Selection
+                            </a></li>
+                        </ul>
+                    </div>
+                    <br>
+                    <small style="color: #a0aec0;">Click to switch products • Last login: Today</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workflow Tiles -->
+    <div class="row">
+        {% if 'agreement_replication' in user_role.permissions %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 rounded me-3" style="background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%); border-radius: 12px;">
+                            <i class="bi bi-files text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1" style="color: #f8f9fa; font-weight: 600;">Agreement Replication</h5>
+                            <small style="color: #a0aec0;">Multi-state drafts from negotiated terms</small>
+                        </div>
+                    </div>
+                    <p class="card-text small mb-3" style="color: #a0aec0;">
+                        Generate state-specific distribution agreements from your negotiated terms.
+                        Automatically adapts clauses for state-specific requirements.
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small style="color: #a0aec0;">Last used: 2 days ago</small>
+                            <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Ready</span>
+                        </div>
+                        <a href="{{ url_for('agreement_replication') }}" class="btn w-100" style="background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%); color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600;">
+                            <i class="bi bi-arrow-right me-2"></i>
+                            Start Replication
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if 'create_agreement' in user_role.permissions %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 rounded me-3" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); border-radius: 12px;">
+                            <i class="bi bi-file-earmark-plus text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1" style="color: #f8f9fa; font-weight: 600;">Create New Agreement</h5>
+                            <small style="color: #a0aec0;">Wizard-based agreement generation</small>
+                        </div>
+                    </div>
+                    <p class="card-text small mb-3" style="color: #a0aec0;">
+                        Build new distribution agreements using guided workflows with
+                        intelligent clause suggestions and compliance checking.
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small style="color: #a0aec0;">Last used: 2 days ago</small>
+                            <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Ready</span>
+                        </div>
+                        <a href="{{ url_for('create_agreement') }}" class="btn w-100" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600;">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Create Agreement
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if 'contract_qa' in user_role.permissions %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 rounded me-3" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); border-radius: 12px;">
+                            <i class="bi bi-chat-dots text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1" style="color: #f8f9fa; font-weight: 600;">Contract Q&A</h5>
+                            <small style="color: #a0aec0;">AI-powered questions with citations</small>
+                        </div>
+                    </div>
+                    <p class="card-text small mb-3" style="color: #a0aec0;">
+                        Ask questions about your contracts and get accurate answers with
+                        source citations back to specific clauses and sections.
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small style="color: #a0aec0;">Last used: Today</small>
+                            <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Active</span>
+                        </div>
+                        <a href="{{ url_for('contract_qa') }}" class="btn w-100" style="background: linear-gradient(135deg, #e67e22 0%, #d35400 100%); color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600;">
+                            <i class="bi bi-question-circle me-2"></i>
+                            Ask Questions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if 'term_sheet' in user_role.permissions %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 rounded me-3" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); border-radius: 12px;">
+                            <i class="bi bi-table text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1" style="color: #f8f9fa; font-weight: 600;">Term Sheet Generation</h5>
+                            <small style="color: #a0aec0;">Automated extraction from agreements</small>
+                        </div>
+                    </div>
+                    <p class="card-text small mb-3" style="color: #a0aec0;">
+                        Automatically extract key terms and conditions from executed agreements
+                        into structured, shareable term sheets.
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small style="color: #a0aec0;">Last used: Never</small>
+                            <span class="badge" style="background-color: #3182ce; color: white; border-radius: 20px;">New</span>
+                        </div>
+                        <a href="{{ url_for('term_sheet') }}" class="btn w-100" style="background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%); color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600;">
+                            <i class="bi bi-table me-2"></i>
+                            Generate Term Sheet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if 'financial_analysis' in user_role.permissions %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 rounded me-3" style="background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); border-radius: 12px;">
+                            <i class="bi bi-graph-up text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1" style="color: #f8f9fa; font-weight: 600;">Financial Contract Analysis</h5>
+                            <small style="color: #a0aec0;">Obligations & cross-contract analytics</small>
+                        </div>
+                    </div>
+                    <p class="card-text small mb-3" style="color: #a0aec0;">
+                        Extract financial provisions, track payment obligations, and analyze
+                        cross-contract exposure across your agreement portfolio.
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small style="color: #a0aec0;">Last used: 3 days ago</small>
+                            <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Ready</span>
+                        </div>
+                        <a href="{{ url_for('financial_analysis') }}" class="btn w-100" style="background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%); color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600;">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Analyze Finances
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if 'knowledge_base' in user_role.permissions %}
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm hover-card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 rounded me-3" style="background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%); border-radius: 12px;">
+                            <i class="bi bi-book text-white fs-2"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-1" style="color: #f8f9fa; font-weight: 600;">Knowledge Base</h5>
+                            <small style="color: #a0aec0;">Templates & executed agreements</small>
+                        </div>
+                    </div>
+                    <p class="card-text small mb-3" style="color: #a0aec0;">
+                        Browse state-specific templates and executed agreements with
+                        advanced search and filtering capabilities.
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small style="color: #a0aec0;">Last used: Today</small>
+                            <span class="badge" style="background-color: #38a169; color: white; border-radius: 20px;">Active</span>
+                        </div>
+                        <a href="{{ url_for('knowledge_base') }}" class="btn w-100" style="background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%); color: white; border: none; border-radius: 12px; padding: 12px; font-weight: 600;">
+                            <i class="bi bi-book me-2"></i>
+                            Browse Knowledge Base
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Stats Row -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-bar-chart me-2" style="color: #e67e22;"></i>
+                        Recent Activity
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="mb-1" style="color: #3182ce; font-weight: 700;">12</h4>
+                                <small style="color: #a0aec0;">Agreements Generated</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="mb-1" style="color: #38a169; font-weight: 700;">8</h4>
+                                <small style="color: #a0aec0;">Q&A Sessions</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="mb-1" style="color: #e67e22; font-weight: 700;">5</h4>
+                                <small style="color: #a0aec0;">Documents Uploaded</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3">
+                                <h4 class="mb-1" style="color: #ed8936; font-weight: 700;">3</h4>
+                                <small style="color: #a0aec0;">Active Workflows</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.hover-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+.hover-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    border-color: #4a5568 !important;
+}
+
+/* Category dropdown styles */
+.current-indicator {
+    color: var(--bbg-primary) !important;
+}
+
+.other-indicator {
+    color: var(--bbg-gray-400) !important;
+}
+
+.current-category {
+    font-weight: 600;
+}
+
+/* Custom dropdown styling to override Bootstrap */
+.dropdown-menu {
+    background-color: #2c1810 !important;
+    border: 1px solid #e67e22 !important;
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.3) !important;
+    min-width: 200px !important;
+}
+
+.dropdown-item {
+    color: #f8f9fa !important;
+    padding: 8px 16px !important;
+    background-color: transparent !important;
+}
+
+.dropdown-item:hover {
+    background-color: #e67e22 !important;
+    color: white !important;
+}
+
+.dropdown-item.active {
+    background-color: #e67e22 !important;
+    color: white !important;
+}
+
+.dropdown-item.current-category {
+    background-color: #e67e22 !important;
+    color: white !important;
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+}
+</style>
+
+<script>
+function changeCategory(categoryId, categoryName) {
+    // Show loading state
+    const button = document.getElementById('categoryDropdown');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="bi bi-hourglass-split me-1"></i>Switching...';
+    button.disabled = true;
+
+    // Make AJAX request to change category
+    fetch('/select-category', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'category_id=' + encodeURIComponent(categoryId)
+    })
+    .then(response => {
+        if (response.ok) {
+            // Success - refresh the page to show flash message
+            window.location.reload();
+        } else {
+            // Error - reset button and show error
+            button.innerHTML = originalText;
+            button.disabled = false;
+            alert('Failed to change category. Please try again.');
+        }
+    })
+    .catch(error => {
+        // Network error - reset button and show error
+        button.innerHTML = originalText;
+        button.disabled = false;
+        alert('Network error. Please try again.');
+    });
+}
+</script>
+{% endblock %}

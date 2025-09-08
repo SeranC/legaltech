@@ -1,0 +1,596 @@
+{% extends "base.html" %}
+
+{% block title %}Login - BBG Legal Tech Assistant{% endblock %}
+
+{% block main_class %}login-page{% endblock %}
+
+{% block extra_head %}
+<style>
+/* Hide the top navigation bar for login page */
+.navbar {
+    display: none !important;
+}
+
+/* Adjust body padding since navbar is hidden */
+body {
+    padding-top: 0 !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-content-wrapper">
+    <div class="row justify-content-center w-100">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <div class="login-card">
+                <div class="login-card-header">
+                    <div class="login-logo-section">
+                        <img src="{{ url_for('static', filename='assets/images/cs-logo-breakthru-beverage-group.png') }}" 
+                             alt="BBG Logo" class="login-logo">
+                    </div>
+                    <h4 class="login-card-title">
+                        <i class="bi bi-shield-check me-2"></i>
+                        BBG Legal Tech Assistant
+                    </h4>
+                    <p class="login-card-subtitle">Secure access to your legal workflows</p>
+                </div>
+                <div class="login-card-body">
+                    <form method="POST" class="login-form">
+                        <div class="form-group">
+                            <label for="email" class="form-label">
+                                <i class="bi bi-envelope me-2"></i>
+                                Email Address
+                            </label>
+                            <div class="input-group">
+                                <input type="email" class="form-control login-input" id="email" name="email"
+                                       placeholder="your.email@bbg.com" required>
+                                <div class="input-group-text">
+                                    <i class="bi bi-person-check"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">
+                                <i class="bi bi-lock me-2"></i>
+                                Password
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control login-input" id="password" name="password"
+                                       placeholder="Enter your password" required>
+                                <div class="input-group-text">
+                                    <i class="bi bi-shield-lock"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-login">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                <span>Sign In</span>
+                                <div class="btn-loading">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="login-card-footer">
+                    <div class="security-badge">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        <span>Demo Environment - Secure Login</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo User Cards -->
+            <div class="demo-section">
+                <div class="demo-header">
+                    <h5 class="demo-title">
+                        <i class="bi bi-people-fill me-2"></i>
+                        Demo User Accounts
+                    </h5>
+                    <p class="demo-subtitle">Click any account to auto-fill email and password</p>
+                </div>
+                
+                <div class="demo-cards-grid">
+                    <div class="demo-user-card" data-email="sarah.johnson@bbg.com" data-password="legal123" onclick="selectDemoUser('sarah.johnson@bbg.com', 'legal123')">
+                        <div class="demo-card-icon legal-icon">
+                            <i class="bi bi-person-badge"></i>
+                        </div>
+                        <div class="demo-card-content">
+                            <h6 class="demo-card-name">Sarah Johnson</h6>
+                            <p class="demo-card-role">Legal Team</p>
+                            <span class="demo-card-badge legal-badge">Full Access</span>
+                        </div>
+                        <div class="demo-card-arrow">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-user-card" data-email="mike.chen@bbg.com" data-password="finance456" onclick="selectDemoUser('mike.chen@bbg.com', 'finance456')">
+                        <div class="demo-card-icon finance-icon">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <div class="demo-card-content">
+                            <h6 class="demo-card-name">Mike Chen</h6>
+                            <p class="demo-card-role">Finance Team</p>
+                            <span class="demo-card-badge finance-badge">Finance + Q&A</span>
+                        </div>
+                        <div class="demo-card-arrow">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-user-card" data-email="jennifer.smith@bbg.com" data-password="business789" onclick="selectDemoUser('jennifer.smith@bbg.com', 'business789')">
+                        <div class="demo-card-icon business-icon">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <div class="demo-card-content">
+                            <h6 class="demo-card-name">Jennifer Smith</h6>
+                            <p class="demo-card-role">Business Dev</p>
+                            <span class="demo-card-badge business-badge">Q&A + Upload</span>
+                        </div>
+                        <div class="demo-card-arrow">
+                            <i class="bi bi-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectDemoUser(email, password) {
+    // Autofill the email field
+    document.getElementById('email').value = email;
+    
+    // Autofill the password field
+    document.getElementById('password').value = password;
+
+    // Add visual feedback to show selection
+    const cards = document.querySelectorAll('.demo-user-card');
+    cards.forEach(card => {
+        card.classList.remove('selected');
+    });
+
+    // Find and highlight the selected card
+    const selectedCard = document.querySelector(`[data-email="${email}"]`);
+    if (selectedCard) {
+        selectedCard.classList.add('selected');
+    }
+    
+    // Focus on the password field to show it's been filled
+    document.getElementById('password').focus();
+}
+
+// Add loading animation to manual login
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.login-form');
+    if (form) {
+        form.addEventListener('submit', function() {
+            const btn = document.querySelector('.btn-login');
+            if (btn) {
+                btn.classList.add('loading');
+                const span = btn.querySelector('span');
+                const loading = btn.querySelector('.btn-loading');
+                if (span) span.style.display = 'none';
+                if (loading) loading.style.display = 'block';
+            }
+        });
+    }
+});
+</script>
+
+<style>
+/* Login Page Background */
+.login-page {
+    background: linear-gradient(135deg, #0f1419 0%, #1a202c 50%, #2d3748 100%);
+    min-height: 100vh;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Add subtle background pattern */
+.login-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(230, 126, 34, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(74, 222, 128, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Login Content Wrapper */
+.login-content-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Login Card */
+.login-card {
+    background: rgba(45, 55, 72, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.login-card-header {
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    padding: 1.5rem 2rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+/* Login Logo Section */
+.login-logo-section {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-logo {
+    max-height: 50px;
+    max-width: 180px;
+    object-fit: contain;
+    filter: brightness(1.1) contrast(1.1);
+    transition: all 0.3s ease;
+}
+
+.login-logo:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2) contrast(1.2);
+}
+
+.login-card-title {
+    color: #f8f9fa;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card-title i {
+    color: #e67e22;
+}
+
+.login-card-subtitle {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.login-card-body {
+    padding: 1.5rem 2rem;
+}
+
+.login-card-footer {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    color: #f8f9fa;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.form-label i {
+    color: #e67e22;
+}
+
+.input-group {
+    position: relative;
+}
+
+.login-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #f8f9fa;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.login-input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #e67e22;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+    color: #f8f9fa;
+}
+
+.login-input::placeholder {
+    color: #a0aec0;
+}
+
+.input-group-text {
+    background: rgba(230, 126, 34, 0.1);
+    border: 2px solid rgba(230, 126, 34, 0.2);
+    border-left: none;
+    color: #e67e22;
+    border-radius: 0 12px 12px 0;
+}
+
+/* Login Button */
+.btn-login {
+    width: 100%;
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.875rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #d35400, #e67e22);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(230, 126, 34, 0.4);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn-login.loading .btn-loading {
+    display: block;
+}
+
+.btn-login.loading span {
+    display: none;
+}
+
+/* Security Badge */
+.security-badge {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.security-badge i {
+    color: #4ade80;
+}
+
+/* Demo Section */
+.demo-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0;
+}
+
+.demo-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.demo-title {
+    color: #f8f9fa;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.demo-title i {
+    color: #e67e22;
+}
+
+.demo-subtitle {
+    color: #a0aec0;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* Demo Cards Grid */
+.demo-cards-grid {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    justify-content: center;
+}
+
+.demo-user-card {
+    background: rgba(45, 55, 72, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    flex: 1;
+    max-width: 280px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.demo-user-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(230, 126, 34, 0.05), rgba(59, 130, 246, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 16px;
+}
+
+.demo-user-card:hover::before {
+    opacity: 1;
+}
+
+.demo-user-card:hover {
+    transform: translateY(-5px);
+    border-color: #e67e22;
+    box-shadow: 0 15px 35px rgba(230, 126, 34, 0.2);
+}
+
+.demo-user-card.selected {
+    border-color: #e67e22;
+    background: rgba(230, 126, 34, 0.1);
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+}
+
+/* Demo Card Icons */
+.demo-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.legal-icon {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    color: white;
+}
+
+.finance-icon {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: white;
+}
+
+.business-icon {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+}
+
+/* Demo Card Content */
+.demo-card-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.demo-card-name {
+    color: #f8f9fa;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.demo-card-role {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.demo-card-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.legal-badge {
+    background: rgba(230, 126, 34, 0.2);
+    color: #e67e22;
+    border: 1px solid rgba(230, 126, 34, 0.3);
+}
+
+.finance-badge {
+    background: rgba(74, 222, 128, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.business-badge {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Demo Card Arrow */
+.demo-card-arrow {
+    color: #a0aec0;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.demo-user-card:hover .demo-card-arrow {
+    color: #e67e22;
+    transform: translateX(5px);
+}
+
+/* Desktop Focus - No Mobile Responsive */
+</style>
+{% endblock %}

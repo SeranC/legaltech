@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Create Agreement - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-1">Create New Agreement</h1>
+                    <p class="text-muted mb-0">Wizard-based agreement generation with intelligent clause suggestions</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 mb-2" style="background-color: var(--bbg-primary); color: var(--bbg-text-primary);">
+                        <i class="bi bi-tag me-1"></i>
+                        {{ product_category.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-file-earmark-plus me-2"></i>
+                        Agreement Wizard
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Progress Indicator -->
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <small class="text-muted">Step 1 of 4</small>
+                            <small class="text-muted">25% Complete</small>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Basic Information -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Basic Information
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="agreementType" class="form-label">Agreement Type</label>
+                                    <div class="dropdown">
+                                        <button class="badge fs-6 mb-2 dropdown-toggle text-decoration-none w-100 text-start" type="button" id="agreementTypeDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: var(--bbg-primary); color: var(--bbg-text-primary); border: none; cursor: pointer; padding: 0.5rem 1rem;">
+                                            <i class="bi bi-file-earmark-text me-2"></i>
+                                            Distribution Agreement
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="agreementTypeDropdown">
+                                            <li><a class="dropdown-item" href="#" onclick="selectAgreementType('Distribution Agreement')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-primary);"></i>Distribution Agreement</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectAgreementType('Service Agreement')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-gray-400);"></i>Service Agreement</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectAgreementType('License Agreement')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-gray-400);"></i>License Agreement</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectAgreementType('Partnership Agreement')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-gray-400);"></i>Partnership Agreement</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="targetState" class="form-label">Target State</label>
+                                    <div class="dropdown">
+                                        <button class="badge fs-6 mb-2 dropdown-toggle text-decoration-none w-100 text-start" type="button" id="targetStateDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: var(--bbg-primary); color: var(--bbg-text-primary); border: none; cursor: pointer; padding: 0.5rem 1rem;">
+                                            <i class="bi bi-geo-alt me-2"></i>
+                                            California
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="targetStateDropdown">
+                                            <li><a class="dropdown-item" href="#" onclick="selectTargetState('California')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-primary);"></i>California</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectTargetState('New York')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-gray-400);"></i>New York</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectTargetState('Texas')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-gray-400);"></i>Texas</a></li>
+                                            <li><a class="dropdown-item" href="#" onclick="selectTargetState('Florida')"><i class="bi bi-circle-fill me-2" style="color: var(--bbg-gray-400);"></i>Florida</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="agreementTitle" class="form-label">Agreement Title</label>
+                            <input type="text" class="form-control" id="agreementTitle" placeholder="Enter agreement title">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary" disabled>
+                            <i class="bi bi-arrow-left me-2"></i>
+                            Previous
+                        </button>
+                        <button class="btn btn-primary">
+                            Next Step
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bi bi-lightbulb me-2"></i>
+                        AI Suggestions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <small>Based on your selections, we recommend including these standard clauses:</small>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-0">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="clause1" checked>
+                                <label class="form-check-label" for="clause1">
+                                    <small>Termination Clause</small>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-0">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="clause2" checked>
+                                <label class="form-check-label" for="clause2">
+                                    <small>Confidentiality Agreement</small>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-0">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="clause3">
+                                <label class="form-check-label" for="clause3">
+                                    <small>Force Majeure</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function selectAgreementType(type) {
+        const button = document.getElementById('agreementTypeDropdown');
+        button.innerHTML = `<i class="bi bi-file-earmark-text me-2"></i>${type}`;
+
+        // Update indicator colors
+        const items = button.nextElementSibling.querySelectorAll('.dropdown-item i');
+        items.forEach((icon, index) => {
+            if (index === 0 && type === 'Distribution Agreement') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else if (index === 1 && type === 'Service Agreement') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else if (index === 2 && type === 'License Agreement') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else if (index === 3 && type === 'Partnership Agreement') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else {
+                icon.style.color = 'var(--bbg-gray-400)';
+            }
+        });
+    }
+
+    function selectTargetState(state) {
+        const button = document.getElementById('targetStateDropdown');
+        button.innerHTML = `<i class="bi bi-geo-alt me-2"></i>${state}`;
+
+        // Update indicator colors
+        const items = button.nextElementSibling.querySelectorAll('.dropdown-item i');
+        items.forEach((icon, index) => {
+            if (index === 0 && state === 'California') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else if (index === 1 && state === 'New York') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else if (index === 2 && state === 'Texas') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else if (index === 3 && state === 'Florida') {
+                icon.style.color = 'var(--bbg-primary)';
+            } else {
+                icon.style.color = 'var(--bbg-gray-400)';
+            }
+        });
+    }
+</script>
+{% endblock %}

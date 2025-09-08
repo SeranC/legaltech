@@ -1,0 +1,26 @@
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - echo "Installing Python dependencies"
+        - pip install -r requirements.txt
+        - echo "Backend build completed on `date`"
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Frontend preBuild started on `date`"
+    build:
+      commands:
+        - echo "Frontend build started on `date`"
+        - echo "Frontend build completed on `date`"
+  artifacts:
+    baseDirectory: .
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - venv/**/*
+      - .venv/**/*

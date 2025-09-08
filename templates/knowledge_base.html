@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Knowledge Base - BBG Legal Tech Assistant{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2" style="color: #f8f9fa; font-weight: 700;">
+                        <i class="bi bi-book me-3" style="color: #e67e22;"></i>
+                        Knowledge Base
+                    </h1>
+                    <p class="mb-0" style="color: #a0aec0; font-size: 1.1rem;">Templates & executed agreements with advanced search and filtering</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge fs-6 px-4 py-2" style="background-color: #e67e22; color: white; box-shadow: 0 4px 12px rgba(230, 126, 34, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-radius: 25px;">
+                        <i class="bi bi-tag-fill me-2"></i>
+                        {{ product_category.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="card mb-4" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search templates and agreements..." aria-label="Search" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 12px 0 0 12px;">
+                        <button class="btn" type="button" style="background-color: #e67e22; color: white; border: 1px solid #e67e22; border-radius: 0 12px 12px 0;">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex gap-2">
+                        <select class="form-select" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 12px;">
+                            <option selected>All States</option>
+                            <option>California</option>
+                            <option>New York</option>
+                            <option>Texas</option>
+                            <option>Florida</option>
+                        </select>
+                        <select class="form-select" style="background-color: #2d3748; border: 1px solid #4a5568; color: #f8f9fa; border-radius: 12px;">
+                            <option selected>All Types</option>
+                            <option>Distribution Agreement</option>
+                            <option>Service Agreement</option>
+                            <option>License Agreement</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Templates Section -->
+            <div class="card mb-4" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h5 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-file-earmark-text me-2" style="color: #e67e22;"></i>
+                        Agreement Templates
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; transition: all 0.3s ease;">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="p-3 rounded-circle me-3" style="background-color: #3182ce;">
+                                            <i class="bi bi-file-earmark-text text-white fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">Distribution Agreement</h6>
+                                            <small style="color: #a0aec0;">California Template</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text mb-3" style="color: #a0aec0; font-size: 0.9rem; line-height: 1.5;">
+                                        Standard distribution agreement template with state-specific clauses for California.
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small style="color: #a0aec0;">Updated 2 weeks ago</small>
+                                        <button class="btn btn-sm px-3 py-2" style="background-color: #3182ce; color: white; border: none; border-radius: 20px; font-weight: 500;">
+                                            <i class="bi bi-plus-circle me-1"></i>Use Template
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100" style="background-color: #2d3748; border: 1px solid #4a5568; border-radius: 12px; transition: all 0.3s ease;">
+                                <div class="card-body p-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="p-3 rounded-circle me-3" style="background-color: #38a169;">
+                                            <i class="bi bi-file-earmark-text text-white fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1" style="color: #f8f9fa; font-weight: 600;">Service Agreement</h6>
+                                            <small style="color: #a0aec0;">New York Template</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text mb-3" style="color: #a0aec0; font-size: 0.9rem; line-height: 1.5;">
+                                        Comprehensive service agreement template for New York business requirements.
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small style="color: #a0aec0;">Updated 1 week ago</small>
+                                        <button class="btn btn-sm px-3 py-2" style="background-color: #38a169; color: white; border: none; border-radius: 20px; font-weight: 500;">
+                                            <i class="bi bi-plus-circle me-1"></i>Use Template
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executed Agreements -->
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h5 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-folder me-2" style="color: #e67e22;"></i>
+                        Executed Agreements
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-4 py-3" style="background-color: #1a202c; border-color: #2d3748;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-3 rounded-circle me-3" style="background-color: #e53e3e;">
+                                        <i class="bi bi-file-earmark-pdf text-white fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <div style="color: #f8f9fa; font-weight: 500; font-size: 1.1rem;">California_Distribution_Agreement_2024.pdf</div>
+                                        <small style="color: #a0aec0;">Executed: March 15, 2024 | 2.4 MB</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm px-3 py-2" style="background-color: #3182ce; color: white; border: none; border-radius: 20px;">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm px-3 py-2" style="background-color: #38a169; color: white; border: none; border-radius: 20px;">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-4 py-3" style="background-color: #1a202c; border-color: #2d3748;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-3 rounded-circle me-3" style="background-color: #e53e3e;">
+                                        <i class="bi bi-file-earmark-pdf text-white fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <div style="color: #f8f9fa; font-weight: 500; font-size: 1.1rem;">New_York_Service_Agreement_2024.pdf</div>
+                                        <small style="color: #a0aec0;">Executed: February 28, 2024 | 1.8 MB</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm px-3 py-2" style="background-color: #3182ce; color: white; border: none; border-radius: 20px;">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm px-3 py-2" style="background-color: #38a169; color: white; border: none; border-radius: 20px;">
+                                        <i class="bi bi-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Categories -->
+            <div class="card mb-4" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-tags me-2" style="color: #e67e22;"></i>
+                        Categories
+                    </h6>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge px-3 py-2" style="background-color: #3182ce; color: white; border-radius: 20px; font-weight: 500;">Distribution</span>
+                        <span class="badge px-3 py-2" style="background-color: #38a169; color: white; border-radius: 20px; font-weight: 500;">Service</span>
+                        <span class="badge px-3 py-2" style="background-color: #3182ce; color: white; border-radius: 20px; font-weight: 500;">License</span>
+                        <span class="badge px-3 py-2" style="background-color: #ed8936; color: white; border-radius: 20px; font-weight: 500;">Partnership</span>
+                        <span class="badge px-3 py-2" style="background-color: #718096; color: white; border-radius: 20px; font-weight: 500;">NDA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Most Used Templates -->
+            <div class="card" style="background-color: #1a202c; border: 1px solid #2d3748; border-radius: 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);">
+                <div class="card-header" style="background-color: #2d3748; border-bottom: 1px solid #4a5568; border-radius: 16px 16px 0 0;">
+                    <h6 class="mb-0" style="color: #f8f9fa; font-weight: 600;">
+                        <i class="bi bi-star me-2" style="color: #e67e22;"></i>
+                        Most Used Templates
+                    </h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-4 py-3 d-flex justify-content-between align-items-center" style="background-color: #1a202c; border-color: #2d3748;">
+                            <span style="color: #f8f9fa; font-weight: 500;">Distribution Agreement</span>
+                            <span class="badge px-3 py-2" style="background-color: #3182ce; color: white; border-radius: 20px; font-weight: 500;">47 uses</span>
+                        </div>
+                        <div class="list-group-item px-4 py-3 d-flex justify-content-between align-items-center" style="background-color: #1a202c; border-color: #2d3748;">
+                            <span style="color: #f8f9fa; font-weight: 500;">Service Agreement</span>
+                            <span class="badge px-3 py-2" style="background-color: #38a169; color: white; border-radius: 20px; font-weight: 500;">32 uses</span>
+                        </div>
+                        <div class="list-group-item px-4 py-3 d-flex justify-content-between align-items-center" style="background-color: #1a202c; border-color: #2d3748;">
+                            <span style="color: #f8f9fa; font-weight: 500;">NDA Template</span>
+                            <span class="badge px-3 py-2" style="background-color: #718096; color: white; border-radius: 20px; font-weight: 500;">28 uses</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,10 +3,13 @@ runtime: python311
 build:
   commands:
     build:
+      - pip3 install --upgrade pip
       - pip3 install -r requirements.txt
+      - which gunicorn
+      - ls -la /usr/local/bin/gunicorn
 run:
   runtime-version: 3.11.9
-  command: gunicorn --bind 0.0.0.0:8000 --workers 2 --timeout 120 app:app
+  command: /usr/local/bin/gunicorn --bind 0.0.0.0:8000 --workers 2 --timeout 120 app:app
   network:
     port: 8000
   env:
